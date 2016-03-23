@@ -140,9 +140,9 @@ $$
 \mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})'}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})}
 $$
 
-\textcolor{blue}{\bf 2.b } First construct the variance-covariance matrix $\Sigma$ from the correlation matrix. That is, 
+\textcolor{blue}{\bf 2.b } First construct the variance-covariance matrix $\Sigma$ from the correlation matrix. That is,
 $$
-\Sigma = SRS = 
+\Sigma = SRS =
 \left(
   \begin{array}{cccc}
 0.0049	&	0.00168	&	0.0063	&	0.00546	\\
@@ -155,7 +155,7 @@ $$
 
 Then calculate the optimal weight for the minimum variance portfolio
 $$
-\mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})'}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})} = 
+\mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})'}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})} =
 \left(
   \begin{array}{cccc}
     0.3957 & 1.0541 & -0.8268 & 0.7313 \\
@@ -170,32 +170,71 @@ $$
 
 Detailed numerical calculation results could be found in the Appendix Matlab code.
 
-\textcolor{blue}{\bf 3.a }
+\textcolor{blue}{\bf 2.c } The tangency portfolio is the portfolio that is entirely invested in risky assets and is on the capital market line. The portfolio return $\mu_T$ and weight $\omega_T$ are shown below (detailed derivation is presented in Page 79-83 in M2S2 slices). Let
 
-\textcolor{blue}{\bf 3.b }
+$$
+\left\{
+  \begin{array}{rcr}
+    A & = & \mathbf{1}'\Sigma^{-1}\mathbf{1} \\
+    B & = & \mu'\Sigma^{-1}\mathbf{1} \\
+    C & = & \mu'\Sigma^{-1}\mu \\
+  \end{array}
+\right.
+$$
+
+and we have
+
+\begin{eqnarray*}
+\mu_t &=& \frac{C-Br}{B-Ar} = \frac{\mu'\Sigma^{-1}\mu - \mu'\Sigma^{-1}\mathbf{1}r}{\mu'\Sigma^{-1}\mathbf{1} - \mathbf{1}'\Sigma^{-1}\mathbf{1}r} = 8.17\% \\
+\omega_T &=& \frac{\Sigma^{-1}(\mu-r\mathbf{1})}{B-Ar} = \frac{\Sigma^{-1}(\mu-r\mathbf{1})}{\mu'\Sigma^{-1}\mathbf{1} - \mathbf{1}'\Sigma^{-1}\mathbf{1}r} = \left(
+                                       \begin{array}{cccc}
+                                         0.2922 & 0.7783 & -0.6105 & 0.5400 \\
+                                       \end{array}
+                                     \right)' \\
+\sigma_T &=& \sqrt{\frac{C-2rB+r^2A}{(B-Ar)^2}} = 9.76\%
+\end{eqnarray*}
+
+The slope of capital market line is calculated as
+
+$$
+Slope = \frac{\mu_T - r}{\sigma_T} = 0.5298
+$$
+
+The slope of the capital market line is the measure of risk-adjusted return representing the excess return (over the risk free rate) per unit of total risk taken in the tangency portfolio. It is also the Sharpe ratio of the tangency portfolio. The slope of this portfolio defines the highest Sharpe ratio an portfolio could have in current investment universe.
+
+\textcolor{blue}{\bf 3.a } The value-at-risk level of tangency portfolio is calculated as
+
+$$
+VaR(X) = \omega_T' \mu + Factor \times \sqrt{\omega_T'\Sigma\omega_T}
+$$
+
+When the Factor is determined by standard normal distribution, the VaR is
+
+$$
+VaR(X) = \omega_T' \mu + \Phi^{-1}(1-99\%) \times \sqrt{\omega_T'\Sigma\omega_T} = -0.1453
+$$
+
+
+\textcolor{blue}{\bf 3.b } When the Factor is determined by standard normal distribution, the VaR is
+
+$$
+VaR(X) = \omega_T' \mu + T_30^{-1}(1-99\%) \times \sqrt{\omega_T'\Sigma\omega_T} = -0.1580
+$$
+
+which assumes a fatter tail on the loss end of the risk distribution.
 
 \section*{B. Value at Risk on FTSE 100}
-\textcolor{blue}{\bf 1 }
+\textcolor{blue}{\bf 1.a }
+
+\textcolor{blue}{\bf 1.b }
+
+\textcolor{blue}{\bf 1.c }
 
 \textcolor{blue}{\bf 2.a }
 
 \textcolor{blue}{\bf 2.b }
 
 \textcolor{blue}{\bf 2.c }
-
-\textcolor{blue}{\bf 2.d }
-
-\textcolor{blue}{\bf 3.a }
-
-\textcolor{blue}{\bf 3.b }
-
-\textcolor{blue}{\bf 4 }
-
-\textcolor{blue}{\bf 5.a }
-
-\textcolor{blue}{\bf 5.b }
-
-\textcolor{blue}{\bf 5.c }
 
 \section*{C. Stochastic Calculus}
 \textcolor{blue}{\bf 1 }

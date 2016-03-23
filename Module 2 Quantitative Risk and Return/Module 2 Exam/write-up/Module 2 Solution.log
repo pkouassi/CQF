@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=latex 2015.2.2)  23 MAR 2016 13:31
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=latex 2015.2.2)  23 MAR 2016 15:50
 entering extended mode
 **Module*2*Solution.tex
 
@@ -279,16 +279,16 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 ] [2]
-[3]
+[3] [4]
 ("C:\Users\ranzhao\Documents\CQF\Module 2 Quantitative Risk and Return\Module 2
  Exam\write-up\Module 2 Solution.aux") ) 
 Here is how much of TeX's memory you used:
  3567 strings out of 493922
  48771 string characters out of 3144894
- 151855 words of memory out of 3000000
+ 153855 words of memory out of 3000000
  6828 multiletter control sequences out of 15000+200000
  11666 words of font info for 44 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,12n,43p,322b,233s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,12n,43p,385b,249s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on "Module 2 Solution.dvi" (3 pages, 14840 bytes).
+Output written on "Module 2 Solution.dvi" (4 pages, 19204 bytes).

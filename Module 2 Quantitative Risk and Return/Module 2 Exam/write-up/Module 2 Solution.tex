@@ -224,20 +224,17 @@ $$
 which assumes a fatter tail on the loss end of the risk distribution.
 
 \section*{B. Value at Risk on FTSE 100}
-\textcolor{blue}{\bf 1.a }
+\textcolor{blue}{\bf 1 } The calculation process and results are shown in the attached spreadsheet.
 
-\textcolor{blue}{\bf 1.b }
-
-\textcolor{blue}{\bf 1.c }
-
-\textcolor{blue}{\bf 2.a }
-
-\textcolor{blue}{\bf 2.b }
-
-\textcolor{blue}{\bf 2.c }
+\textcolor{blue}{\bf 2 } The calculation process and results are shown in the attached spreadsheet.
 
 \section*{C. Stochastic Calculus}
-\textcolor{blue}{\bf 1 }
+\textcolor{blue}{\bf 1 } Let $Y(t) = F(S_1(t), S_2(t),\ldots,S_N(t))$. By multi-dimensional It$\hat{o}$ Lemma we have
+\begin{eqnarray*}
+dY(t) &=& \sum_{i=1}^N \frac{\partial F}{\partial S_i} dS_i + \frac{1}{2}\sum_{i,j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} dS_i dS_j \\
+      &=& \sum_{i=1}^N \frac{\partial F}{\partial S_i}\left(S_i\mu_i dt + S_i \sigma_i dX_i\right) + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} \rho_{ij} \sigma_i \sigma_j dt \\
+      &=& \left[\sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i\mu_i + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} \rho_{ij} \sigma_i \sigma_j\right] dt  + \sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i \sigma_i dX_i
+\end{eqnarray*}
 
 \textcolor{blue}{\bf 2}
 

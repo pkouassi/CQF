@@ -62,8 +62,16 @@
 %--------------------------------------------------
 
 
-\section*{A. Strategies and Pricing}
-\textcolor{blue}{\bf 1 }
+\section*{A. Optimal Portfolio Allocations}
+\textcolor{blue}{\bf 1 } To solve for the weight in global minimum variance portfolio, we formulate 
+\begin{equation*}
+\begin{aligned}
+& \underset{\omega}{\text{argmin}} & & \frac{1}{2}\omega'\Sigma\omega \\
+& \text{subject to} 
+& & X_{ij} = M_{ij}, \; (i,j) \in \Omega, \\
+&&& X \succeq 0.
+\end{aligned}
+\end{equation*}
 
 \textcolor{blue}{\bf 2.a }
 
@@ -73,7 +81,7 @@
 
 \textcolor{blue}{\bf 3.b }
 
-\section*{B. Portfolio Optimisation and Risk}
+\section*{B. Value at Risk on FTSE 100}
 \textcolor{blue}{\bf 1 }
 
 \textcolor{blue}{\bf 2.a }
@@ -96,16 +104,70 @@
 
 \textcolor{blue}{\bf 5.c }
 
-\section*{C. Useful Processes and Martingales}
+\section*{C. Stochastic Calculus}
 \textcolor{blue}{\bf 1 }
 
-\textcolor{blue}{\bf 2.a }
-
-\textcolor{blue}{\bf 2.b }
-
-\textcolor{blue}{\bf 2.c }
+\textcolor{blue}{\bf 2}
 
 \textcolor{blue}{\bf 3 }
+
+\textcolor{blue}{\bf 4.a } Starting with the lower triangular matrix $A$, we have
+
+$$
+\Sigma = AA' = 
+\left(
+  \begin{array}{cc}
+    \sigma_1 & 0 \\
+    \rho \sigma_2 & \sqrt{1-\rho^2}\sigma_2 \\
+  \end{array}
+\right)
+\left(
+  \begin{array}{cc}
+    \sigma_1 & \rho \sigma_2 \\
+    0 & \sqrt{1-\rho^2}\sigma_2 \\
+  \end{array}
+\right)
+=
+\left(
+  \begin{array}{cc}
+    \sigma_1^2 & \rho \sigma_1 \sigma_2 \\
+    \rho \sigma_1 \sigma_2 & \sigma_2^2 \\
+  \end{array}
+\right)
+$$
+which yields the original covariance matrix. 
+
+\textcolor{blue}{\bf 4.b } Given $Y = AX$, 
+$$
+\left(
+  \begin{array}{c}
+    Y_1 \\
+    Y_2 \\
+  \end{array}
+\right)
+=
+\left(
+  \begin{array}{cc}
+    \sigma_1 & 0 \\
+    \rho \sigma_2 & \sqrt{1-\rho^2}\sigma_2 \\
+  \end{array}
+\right)
+\left(
+  \begin{array}{c}
+    X_1 \\
+    X_2 \\
+  \end{array}
+\right)
+=
+\left(
+  \begin{array}{c}
+    \sigma_1 X_1 \\
+    \rho \sigma_2 X_1 + \sqrt{1-\rho^2} \sigma_2 X_2 \\
+  \end{array}
+\right)
+$$
+
+\textcolor{blue}{\bf 4.c }
 
 %\section*{Matlab code}
 %\begin{spacing}{0.9}

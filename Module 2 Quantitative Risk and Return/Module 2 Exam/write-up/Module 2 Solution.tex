@@ -63,19 +63,112 @@
 
 
 \section*{A. Optimal Portfolio Allocations}
-\textcolor{blue}{\bf 1 } To solve for the weight in global minimum variance portfolio, we formulate 
+\textcolor{blue}{\bf 1 } To solve for the weight in global minimum variance portfolio, we formulate
 \begin{equation*}
 \begin{aligned}
-& \underset{\omega}{\text{argmin}} & & \frac{1}{2}\omega'\Sigma\omega \\
-& \text{subject to} 
-& & X_{ij} = M_{ij}, \; (i,j) \in \Omega, \\
-&&& X \succeq 0.
+& \underset{\mathbf{\omega}}{\text{argmin}} & & \frac{1}{2}\mathbf{\omega}'\Sigma\mathbf{\omega} \\
+& \text{subject to}
+& & \mathbf{\omega}'\mathbf{1} = 1
 \end{aligned}
 \end{equation*}
 
-\textcolor{blue}{\bf 2.a }
+The Lagrangian multiplier of this global minimum variance portfolio is
+$$
+L(\mathbf{\omega}, \lambda) = \frac{1}{2}\mathbf{\omega}'\Sigma\mathbf{\omega} + \lambda(\mathbf{\omega}'\mathbf{1} - 1) = 0
+$$
 
-\textcolor{blue}{\bf 2.b }
+Set the FOCs to zero yields the optimal solution of the weight:
+
+\begin{eqnarray}
+\frac{\partial L}{\partial \mathbf{\omega}} &=& \Sigma \mathbf{\omega} + \lambda \mathbf{1} = 0 \\
+\frac{\partial L}{\partial \lambda} &=& \omega'\mathbf{1} - 1 = 0
+\end{eqnarray}
+
+From (5), the optimal weight solution has
+\begin{equation}
+\mathbf{\omega}^* = -\Sigma^{-1} \lambda \mathbf{1}
+\end{equation}
+
+Bring this into (6), we have
+\begin{equation}
+\mathbf{\omega}^{*'} \mathbf{1} = -\lambda \mathbf{1}' \Sigma^{-1} \mathbf{1} = 1 \quad \Rightarrow \quad \lambda^* = -\frac{1}{\mathbf{1}'\Sigma^{-1}\mathbf{1}}
+\end{equation}
+
+Combine (4) with (3), the analytical solution for optimal allocations $\omega^*$ is
+$$
+\mathbf{\omega}^* = \frac{\Sigma^{-1}\mathbf{1}'}{\mathbf{1}'\Sigma^{-1}\mathbf{1}}
+$$
+
+\textcolor{blue}{\bf 2.a } To solve for the minimum variance portfolio under the target return with risk-free asset, we formulate
+\begin{equation*}
+\begin{aligned}
+& \underset{\mathbf{\omega}}{\text{argmin}} & & \frac{1}{2}\mathbf{\omega}'\Sigma\mathbf{\omega} \\
+& \text{subject to}
+& & r + (\mu-r\mathbf{1})\mathbf{\omega}' = 0.1
+\end{aligned}
+\end{equation*}
+
+The Lagrangian multiplier of this global minimum variance portfolio is
+$$
+L(\mathbf{\omega}, \lambda) = \frac{1}{2}\mathbf{\omega}'\Sigma\mathbf{\omega} + \lambda[r + (\mu-r\mathbf{1})\mathbf{\omega}' - 0.1] = 0
+$$
+
+Set the FOCs to zero yields the optimal solution of the weight:
+
+\begin{eqnarray}
+\frac{\partial L}{\partial \mathbf{\omega}} &=& \Sigma \mathbf{\omega} + \lambda (\mu-r\mathbf{1}) = 0 \\
+\frac{\partial L}{\partial \lambda} &=& r + (\mu-r\mathbf{1})\mathbf{\omega}' - 0.1 = 0
+\end{eqnarray}
+
+From (1), the optimal weight solution has
+\begin{equation}
+\mathbf{\omega}^* = -\lambda \Sigma^{-1} (\mu-r\mathbf{1})
+\end{equation}
+
+Bring this into (2), we have
+\begin{equation}
+(\mu-r\mathbf{1})'\mathbf{\omega}^{*} = -\lambda (\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1}) = 0.1-r
+\end{equation}
+
+which yields
+\begin{equation}
+\lambda^* = -\frac{0.1-r}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})}
+\end{equation}
+
+Combine (7) with (9), the analytical solution for optimal allocations $\omega^*$ is
+$$
+\mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})'}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})}
+$$
+
+\textcolor{blue}{\bf 2.b } First construct the variance-covariance matrix $\Sigma$ from the correlation matrix. That is, 
+$$
+\Sigma = SRS = 
+\left(
+  \begin{array}{cccc}
+0.0049	&	0.00168	&	0.0063	&	0.00546	\\
+0.00168	&	0.0144	&	0.01512	&	0.01248	\\
+0.0063	&	0.01512	&	0.0324	&	0.04212	\\
+0.00546	&	0.01248	&	0.04212	&	0.0676	\\
+  \end{array}
+\right)
+$$
+
+Then calculate the optimal weight for the minimum variance portfolio
+$$
+\mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})'}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})} = 
+\left(
+  \begin{array}{cccc}
+    0.3957 & 1.0541 & -0.8268 & 0.7313 \\
+  \end{array}
+\right)'
+$$
+
+Finally, the standard deviation of the portfolio is
+$$
+\sigma_{\Pi} = \sqrt{\omega^{*'}\Sigma\omega^*} = 0.1321
+$$
+
+Detailed numerical calculation results could be found in the Appendix Matlab code.
 
 \textcolor{blue}{\bf 3.a }
 
@@ -114,7 +207,7 @@
 \textcolor{blue}{\bf 4.a } Starting with the lower triangular matrix $A$, we have
 
 $$
-\Sigma = AA' = 
+\Sigma = AA' =
 \left(
   \begin{array}{cc}
     \sigma_1 & 0 \\
@@ -135,9 +228,9 @@ $$
   \end{array}
 \right)
 $$
-which yields the original covariance matrix. 
+which yields the original covariance matrix.
 
-\textcolor{blue}{\bf 4.b } Given $Y = AX$, 
+\textcolor{blue}{\bf 4.b } Given $Y = AX$,
 $$
 \left(
   \begin{array}{c}
@@ -169,9 +262,9 @@ $$
 
 \textcolor{blue}{\bf 4.c }
 
-%\section*{Matlab code}
-%\begin{spacing}{0.9}
-%\lstinputlisting[language=Matlab]{hw1cr.m}
-%\end{spacing}
+\section*{Matlab code}
+\begin{spacing}{0.9}
+%\lstinputlisting[language=Matlab]{parta.m}
+\end{spacing}
 
 \end{document} 

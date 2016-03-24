@@ -236,9 +236,36 @@ dY(t) &=& \sum_{i=1}^N \frac{\partial F}{\partial S_i} dS_i + \frac{1}{2}\sum_{i
       &=& \left[\sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i\mu_i + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} \rho_{ij} \sigma_i \sigma_j\right] dt  + \sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i \sigma_i dX_i
 \end{eqnarray*}
 
-\textcolor{blue}{\bf 2}
+\textcolor{blue}{\bf 2} Using It$\hat{o}$ Lemma yields
 
-\textcolor{blue}{\bf 3 }
+\begin{eqnarray*}
+dY(t) &=& de^{\sigma X(t) - \frac{1}{2}\sigma^2 t} \\
+      &=& \frac{\partial Y}{\partial t} dt + \frac{\partial Y}{\partial X} dX + \frac{1}{2} \frac{\partial^2 Y}{\partial X^2} dX^2 \\
+      &=& -\frac{1}{2}\sigma^2 Y(t)dt + \sigma Y(t)dX + \frac{1}{2} \sigma^2 Y(t) dt \\
+      &=& \sigma Y(t) dt
+\end{eqnarray*}
+which is a driftless process. That is, $Y(t)$ is an exponential martingale with the form $Y(t)=Z(t)g(t)dX(t)$, where $Z(t) = Y(t)$ and $g(t) = \sigma$.
+
+\textcolor{blue}{\bf 3 } Let $Z(t)=\sqrt{t}X(t)$. To check that $Y(t)$ is a martingale, it is enough to check that the drift of $Z(t)$ is equal to $\int_0^t \frac{X(s)}{2\sqrt{s}}ds$.
+
+Applying It$\hat{o}$ Lemma yields
+$$
+dZ(t) = \frac{X(t)}{2\sqrt{t}}dt + \sqrt{t}dX(t)
+$$
+with Z(0) = 0.
+
+Integrate over $[0,t]$ we have
+
+$$
+Z(t) = \int_0^t \frac{X(s)}{2\sqrt{s}}ds + \int_0^t \sqrt{s}dX(s)
+$$
+
+As required, the drift of $Z(t)$ is equal to $\int_0^t \frac{X(s)}{2\sqrt{s}}ds$. Hence
+
+$$
+Y(t) = \int_0^t \sqrt{s}dX(s)
+$$
+and $Y(t)$ is a martingale.
 
 \textcolor{blue}{\bf 4.a } Starting with the lower triangular matrix $A$, we have
 
@@ -296,11 +323,17 @@ $$
 \right)
 $$
 
-\textcolor{blue}{\bf 4.c }
+\textcolor{blue}{\bf 4.c } Yes, $Y(t)$ keeps the properties of the Brownian motion if $X_1(t)$ and $X_2(t)$ are random normal. We have
+
+$$
+dY_2(t) = \rho \sigma_2 dX_1(t) + \sqrt{1-\rho^2} \sigma_2 dX_2(t)
+$$
+
+Firstly, the increment of $Y_2(t)$ will be a random Normal, since it is the summation of two random Normals. Without the loss of generality, let $dX_1 \sim N(0,1)$ and $dX_2 \sim N(0,1)$. Then $\mu_{dY_2} = 0$ and $\sigma_{Y_2} = \rho^2\sigma_2^2 + 1 - \rho^2\sigma_2^2 = 1$. Therefore $dY_2 \sim N(0,1)$. That is, the increment of $Y_2(t)$ retains the properties of Brownian motion.
 
 \section*{Matlab code}
 \begin{spacing}{0.9}
-%\lstinputlisting[language=Matlab]{parta.m}
+\lstinputlisting[language=Matlab]{parta.m}
 \end{spacing}
 
 \end{document} 

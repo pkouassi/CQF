@@ -96,7 +96,7 @@ Bring this into (6), we have
 
 Combine (4) with (3), the analytical solution for optimal allocations $\omega^*$ is
 $$
-\mathbf{\omega}^* = \frac{\Sigma^{-1}\mathbf{1}'}{\mathbf{1}'\Sigma^{-1}\mathbf{1}}
+\mathbf{\omega}^* = \frac{\Sigma^{-1}\mathbf{1}}{\mathbf{1}'\Sigma^{-1}\mathbf{1}}
 $$
 
 \textcolor{blue}{\bf 2.a } To solve for the minimum variance portfolio under the target return with risk-free asset, we formulate
@@ -137,7 +137,7 @@ which yields
 
 Combine (7) with (9), the analytical solution for optimal allocations $\omega^*$ is
 $$
-\mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})'}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})}
+\mathbf{\omega}^* = \frac{(0.1-r)\Sigma^{-1}(\mu-r\mathbf{1})}{(\mu-r\mathbf{1})'\Sigma^{-1}(\mu-r\mathbf{1})}
 $$
 
 \textcolor{blue}{\bf 2.b } First construct the variance-covariance matrix $\Sigma$ from the correlation matrix. That is,
@@ -224,16 +224,18 @@ $$
 which assumes a fatter tail on the loss end of the risk distribution.
 
 \section*{B. Value at Risk on FTSE 100}
-\textcolor{blue}{\bf 1 } The calculation process and results are shown in the attached spreadsheet.
+\textcolor{blue}{\bf 1 } The calculation process and results are shown in the attached spreadsheet. The $\sigma_{10D,t}$ and $VaR_t$ are output to column D and column E.
 
-\textcolor{blue}{\bf 2 } The calculation process and results are shown in the attached spreadsheet.
+\textcolor{blue}{\bf 2 } The calculation process and results are shown in the attached spreadsheet. The $r_{10D,t}$ and the indicator of breach are output to column F and column G. The VaR series is plotted in blue and the breach is indicated in red. There are 26 breaches out of 978 observations. The percentage of the breaches is 2.66\%.
+
+From the graph, the breaches seem not to be independent. Instead, the breaches has clustering behavior. That is, one breach is more likely to follow the other breach. Possible explanation is that the instantaneous equity move is more volatile than the VaR measure, which is calculated from 20 previous days with equal weights.
 
 \section*{C. Stochastic Calculus}
 \textcolor{blue}{\bf 1 } Let $Y(t) = F(S_1(t), S_2(t),\ldots,S_N(t))$. By multi-dimensional It$\hat{o}$ Lemma we have
 \begin{eqnarray*}
 dY(t) &=& \sum_{i=1}^N \frac{\partial F}{\partial S_i} dS_i + \frac{1}{2}\sum_{i,j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} dS_i dS_j \\
-      &=& \sum_{i=1}^N \frac{\partial F}{\partial S_i}\left(S_i\mu_i dt + S_i \sigma_i dX_i\right) + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} \rho_{ij} \sigma_i \sigma_j dt \\
-      &=& \left[\sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i\mu_i + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} \rho_{ij} \sigma_i \sigma_j\right] dt  + \sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i \sigma_i dX_i
+      &=& \sum_{i=1}^N \frac{\partial F}{\partial S_i}\left(S_i\mu_i dt + S_i \sigma_i dX_i\right) + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} S_i S_j \rho_{ij} \sigma_i \sigma_j dt \\
+      &=& \left[\sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i\mu_i + \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N \frac{\partial^2 F}{\partial S_i \partial S_j} S_i S_j \rho_{ij} \sigma_i \sigma_j\right] dt  + \sum_{i=1}^N \frac{\partial F}{\partial S_i}S_i \sigma_i dX_i
 \end{eqnarray*}
 
 \textcolor{blue}{\bf 2} Using It$\hat{o}$ Lemma yields

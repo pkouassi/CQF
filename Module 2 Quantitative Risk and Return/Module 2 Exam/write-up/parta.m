@@ -8,7 +8,7 @@ w = (0.1-r)*inv(Var)*(mu-r) / ((mu-r)'*inv(Var)*(mu-r));
 sigma_p = sqrt(w'*Var*w);
 
 A = ones(1,4)*inv(Var)*ones(4,1);
-B = ones(1,4)*inv(Var)*mu;
+B = mu'*inv(Var)*ones(4,1);
 C = mu'*inv(Var)*mu;
 m = (C - B*r) / (B - A*r);
 w_T = (inv(Var)*(mu-r)) / (B - A*r);

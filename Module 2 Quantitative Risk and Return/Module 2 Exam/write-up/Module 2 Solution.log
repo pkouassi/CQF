@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=latex 2015.2.2)  24 MAR 2016 18:25
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=latex 2015.2.2)  24 MAR 2016 21:17
 entering extended mode
 **Module*2*Solution.tex
 
@@ -291,16 +291,16 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 6.
-) [5]
+ [5]) [6]
 ("C:\Users\ranzhao\Documents\CQF\Module 2 Quantitative Risk and Return\Module 2
  Exam\write-up\Module 2 Solution.aux") ) 
 Here is how much of TeX's memory you used:
  4195 strings out of 493922
  56145 string characters out of 3144894
- 245855 words of memory out of 3000000
+ 235874 words of memory out of 3000000
  7439 multiletter control sequences out of 15000+200000
  14473 words of font info for 55 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 29i,12n,43p,408b,1801s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 33i,12n,43p,408b,2242s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on "Module 2 Solution.dvi" (5 pages, 36648 bytes).
+Output written on "Module 2 Solution.dvi" (6 pages, 37904 bytes).

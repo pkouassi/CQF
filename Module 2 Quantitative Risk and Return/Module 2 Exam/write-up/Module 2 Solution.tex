@@ -228,7 +228,15 @@ which assumes a fatter tail on the loss end of the risk distribution.
 
 \textcolor{blue}{\bf 2 } The calculation process and results are shown in the attached spreadsheet. The $r_{10D,t}$ and the indicator of breach are output to column F and column G. The VaR series is plotted in blue and the breach is indicated in red. There are 26 breaches out of 978 observations. The percentage of the breaches is 2.66\%.
 
-From the graph, the breaches seem not to be independent. Instead, the breaches has clustering behavior. That is, one breach is more likely to follow the other breach. Possible explanation is that the instantaneous equity move is more volatile than the VaR measure, which is calculated from 20 previous days with equal weights.
+From the graph, the breaches seem not to be independent. Instead, the breaches has clustering behavior. That is, one breach is more likely to follow the other breach. Possible explanation is that the instantaneous equity move is more volatile than the VaR measure, which is calculated from 20 previous days with equal weights. 
+
+Empirically, the conditional probability of breach in VaR for the next period given that a breach was observed for the previous period is calculated as
+
+$$
+\mathbb{P}(\mathrm{Breach|Pervious Breach}) = \frac{\mathbb{P}(\mathrm{Breach and Pervious Breach})}{\mathbb{P}(\mathrm{Breach})} = 65.45\%
+$$
+
+which means the probability of a breach followed by a breach is about 65\%. Clearly a breach clustering pattern lies in the VaR measurement in this case. 
 
 \section*{C. Stochastic Calculus}
 \textcolor{blue}{\bf 1 } Let $Y(t) = F(S_1(t), S_2(t),\ldots,S_N(t))$. By multi-dimensional It$\hat{o}$ Lemma we have

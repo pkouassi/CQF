@@ -1,0 +1,136 @@
+\documentclass[a4paper,11pt] {article}
+\usepackage{graphicx}
+\usepackage{amssymb, amsmath, amsthm}
+\usepackage{setspace}
+\usepackage{amsfonts}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+%-----------Margin, Linespread, Spacing-----------%
+\usepackage[letterpaper, margin=1.3in]{geometry}
+\usepackage[letterpaper]{geometry}
+\linespread{1}
+%-------------------------------------------------%
+
+%-----------Define header and footnotes-----------
+\usepackage{fancyhdr}               % Header and footnotes
+\pagestyle{fancy}
+\lhead{\bfseries \scriptsize CQF}
+\chead{\bfseries \scriptsize Module 3 Solution}
+\rhead{\bfseries \scriptsize Ran Zhao}
+\renewcommand{\headrulewidth}{0.4pt}
+%-------------------------------------------------%
+
+%---------------------Listings--------------------%
+\usepackage{listings}
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+  language=Octave,                % the language of the code
+  basicstyle=\footnotesize,           % the size of the fonts that are used for the code
+  numbers=left,                   % where to put the line-numbers
+  numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+  stepnumber=2,                   % the step between two line-numbers. If it's 1, each line
+                                  % will be numbered
+  numbersep=5pt,                  % how far the line-numbers are from the code
+  backgroundcolor=\color{white},      % choose the background color. You must add \usepackage{color}
+  showspaces=false,               % show spaces adding particular underscores
+  showstringspaces=false,         % underline spaces within strings
+  showtabs=false,                 % show tabs within strings adding particular underscores
+  frame=single,                   % adds a frame around the code
+  rulecolor=\color{black},        % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. commens (green here))
+  tabsize=2,                      % sets default tabsize to 2 spaces
+  captionpos=b,                   % sets the caption-position to bottom
+  breaklines=true,                % sets automatic line breaking
+  breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+  title=\lstname,                   % show the filename of files included with \lstinputlisting;
+                                  % also try caption instead of title
+  keywordstyle=\color{blue},          % keyword style
+  commentstyle=\color{dkgreen},       % comment style
+  stringstyle=\color{mauve},         % string literal style
+  escapeinside={\%*}{*)},            % if you want to add LaTeX within your code
+  morekeywords={*,...}               % if you want to add more keywords to the set
+}
+%-------------------------------------------------%
+
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+
+%----------------Title, Author, Dates-------------
+\author{Ran Zhao}
+\title{Asian Option Pricing using Monte Carlo Simulation}
+\date{}
+\begin{document}
+\maketitle
+%--------------------------------------------------
+
+
+\section{Stock Price Simulation}
+\subsection{Milstein Scheme Simulation}
+The underlying stock price follows the Geometric Brownian Motion (GBM), whose dynamic is
+
+\begin{equation} \label{eqn::GBM}
+dS_t = r_t S_t dt + \sigma_t dW_t
+\end{equation}
+where $r_t$ is the short rate at time $t$, and $\sigma_t$ is the implied volatility at time $t$. $W_t$ is the Wiener process.
+
+The Forward Euler-Maruyama methods for the GBM gives
+
+$$
+S_{t+\Delta t} - S_t = r_t S_t \Delta t + \sigma_t \phi \sqrt{\Delta t}
+$$
+where $\Delta t$ refers to as the time step in discrete time. And $\phi$ is a standard normal random number. That is, $\phi \sim N(0,1)$.
+
+The Milstein method corrects the Forward Euler-Maruyama with a term on error level of $O(\delta t)$. Given a stochastic process $Y_t$ with
+
+$$
+dY_t = A(Y_t,t) dt + B(Y_t,t)dW_t
+$$
+
+the discretization using Milstein scheme is
+
+$$
+Y_{t+\Delta t} - Y_t = A \Delta t + B\phi \sqrt{\Delta t} + \frac{1}{2} B \frac{\partial B}{\partial Y_t} (\phi^2 - 1) \Delta t
+$$
+where $\frac{1}{2}(\phi^2 - 1) \Delta t$ is the Milstein correction term. For GBM, the Milstein scheme yields
+
+$$
+S_{t+\Delta t} - S_t = r_t S_t \Delta t + \sigma_t S_t \phi \sqrt{\Delta t} + \frac{1}{2} S_t \sigma^2 (\phi^2-1) \Delta t
+$$
+
+\subsection{Antithetic Variance Reduction}
+The antithetic variable technique attempts to reduce the variance by introducing negatively correlated random numbers between pair of observations. While simulating the GBM, one set of standard normal random numbers is generated, labeled as $\phi^{n} \sim N(0,1)$. Then $-\phi^{n} \sim N(0,1)$ also has a standard normal distribution. 
+
+The pairs $\{(\phi^{n},-\phi^{n})\}$ are distributed more desirable than $2n$ independent samples, since the samples with antithetic variable have mean 0 and negative correlation. 
+
+The whole simulation procedure is shown in Algorithm~\ref{alg:esg}.
+
+\begin{algorithm}
+\caption{Stock Price Generation}\label{alg:esg}
+\begin{algorithmic}[1]
+\Procedure{$S_T$ Projection}{$S_0,T-t,\sigma,r$} %\Comment{The g.c.d. of a and b}
+\State $S_1(0,:) = S_0$, $S_2(0,:) = S_0$
+\State $N = (T-t)/\Delta t$ \Comment{Define number of time steps}
+\For{$i=1$ to $N$} %\Comment{We have the answer if r is 0}
+\For{$\omega=1$ to $M$}    \Comment{Define number of scenarios}
+\State Generate $\phi$
+\State $S_1(i,\omega)= S_1(i-1,\omega) * (1 + r * \Delta t + \sigma * \phi * \sqrt{\Delta t} + \frac{1}{2} * \sigma^2 *(\phi^2-1)*\Delta t)$
+\State $S_2(i,\omega)= S_2(i-1,\omega) * (1 + r * \Delta t + \sigma * (-\phi) * \sqrt{\Delta t} + \frac{1}{2} * \sigma^2 *(\phi^2-1)*\Delta t)$
+\EndFor
+\EndFor %\label{euclidendwhile}
+\State \textbf{return} $\{S_1, S_2\}$  %\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\section{Asian Option Pricing}
+
+%\section*{Matlab code}
+%\begin{spacing}{0.9}
+%\lstinputlisting[language=Matlab]{parta.m}
+%\end{spacing}
+
+\end{document} 

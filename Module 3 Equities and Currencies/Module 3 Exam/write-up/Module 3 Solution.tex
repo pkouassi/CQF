@@ -160,13 +160,13 @@ $$
 The payoff of the Asian option varies on option type (Call vs. Put), averaging method (Arithmetic vs. Geometric sampling) and strike scheme (Fixed vs. Floating strike) and so on. This report mainly discuss the option pricing differences on averaging methods and strike schemes.
 
 \subsubsection{Averaging Method}
-Consider a regular fixed strike Asian option. An Asian call option pays out 
+Consider a regular fixed strike Asian option. An Asian call option pays out
 $$
 C(T) = \max(A(0,T)-K,0)
 $$
-where $A(0,T)$ is the averaged underlying price over the period $[0,T]$. 
+where $A(0,T)$ is the averaged underlying price over the period $[0,T]$.
 
-Under arithmetic averaging scheme, the continuous time formula of the average is 
+Under arithmetic averaging scheme, the continuous time formula of the average is
 $$
 A(0,T) = \frac{1}{T} \int_0^T S(t)dt
 $$
@@ -187,6 +187,7 @@ $$
 
 \subsection{Comparison with Theoretical Price}
 
+\section{Extensions}
 
 %\section*{Matlab code}
 %\begin{spacing}{0.9}

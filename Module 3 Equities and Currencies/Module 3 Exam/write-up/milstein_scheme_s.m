@@ -3,7 +3,7 @@ S0 = 100;
 tau = 1;
 E = 100;
 Sigma = 0.2;
-r = 0.5;
+r = 0.05;
 
 % Define simulation variable
 d_t = 1 / 365;
@@ -28,3 +28,26 @@ for sce = 1:omega
 end
 
 S = [S_1;S_2];
+
+% Test of the ESG
+selected_scenarios = 500;
+selected_time = 150;
+discount_factors = exp(-r*[0:d_t:tau]);
+S_disc = zeros(size(S));
+for sce = 1:(2*omega)
+    S_disc(sce,:) = S(sce,:).*discount_factors;
+end
+
+subplot(1,3,1)
+plot(S_1(selected_scenarios, :))
+xlim([0 tau/d_t])
+title('The Stock Price of a Randomly Selected Path')
+subplot(1,3,2)
+qqplot(rn(:,selected_time));
+subplot(1,3,3)
+plot(mean(S_disc));
+xlim([0 tau/d_t])
+ylim([99.8 100.2])
+hline = refline([0 100]);
+hline.Color = 'r';
+title('Martingale Test: Discounted Average Stock Price at Each Time Step')

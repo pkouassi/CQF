@@ -143,6 +143,7 @@ Hence the expected value of the discounted stock price should be $S_0$. In the r
 
 \begin{figure}
   \centering
+  %\raggedleft
   % Requires \usepackage{graphicx}
   \includegraphics[scale=0.36]{esg_test.eps}\\
   \caption{The testings on the stock price simulation, including plot of a randomly selected stock price path (left), QQ plot of the random numbers for the same scenario (middle) and discounted stock price over the simulation period (right).}\label{fig::esg_test}
@@ -173,19 +174,116 @@ $$
 
 In discrete time, the arithmetic average is
 $$
-A(0,T) = \frac{1}{N} \sum_{i=0}^{N-1} S(t_i) \qquad t_i = i \cdot \frac{T}{N}
+A(0,T) = \frac{1}{N+1} \sum_{i=0}^{N} S(t_i) \qquad t_i = i \cdot \frac{T}{N}
 $$
+Here the ending (time) point of the stock price is included into averaging calculation. Though this ending point is excluded from the averaging in some literature, the pricing impact of the exclusion will be trivial.
 
 Under geometric averaging scheme, the continuous time formula of the average is
 $$
 A(0,T) = \exp\left(\frac{1}{T} \int_0^T \ln(S(t))dt\right)
 $$
 
+In discrete time, the geometric average is
+$$
+A(0,T) = \left( \prod_{i=0}^{N+1} S(t_i)  \right)^\frac{1}{N+1} \qquad t_i = i \cdot \frac{T}{N}
+$$
+
+For Asian put option, the payoff function is
+$$
+P(T) = \max(K-A(0,T),0)
+$$
+and the formulae for the geometric and arithmetic averaging are the same as that of the call option.
+
+Figure~\ref{fig::geo_vs_arith} shows the stock price simulation and its arithmetic (red) and geometric (green) averages. The Asian option has the feature that its final payoff is related to these averages.
+
+\begin{figure}
+  \centering
+  %\raggedleft
+  % Requires \usepackage{graphicx}
+  \includegraphics[scale=0.6]{geo_vs_arith.eps}\\
+  \caption{The stock price dynamics and its arithmetic and geometric averages.}\label{fig::geo_vs_arith}
+\end{figure}
+
+
+Table~\ref{table:fixed_strike} presents the Asian option pricing results using arithmetic or geometric averaging methods. The call and put option prices with different number of paths are calculation given the simulation results. Approximately there is $\pm 0.4 \%$ difference between arithmetic and geometric results. The results are not very sensitive to the number of scenarios once it passes 10,000. 
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{c||c|c|c|c}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  Fixed Strike & \multicolumn{2}{c|}{Call} & \multicolumn{2}{c}{Put} \\ \hline
+  Averaging & Arithmetic & Geometric & Arithmetic & Geometric \\ \hline
+  1,000 & 5.6991 & 5.4916 & 3.3107 & 3.4248 \\
+  10,000 & 5.7328 & 5.5181 & 3.3238 & 3.4415 \\
+  100,000 & 5.7424 & 5.5262 & 3.3285 & 3.4465 \\
+  \hline
+\end{tabular}
+\caption{The Asian pricing results on call and put option type with arithmetic or geometric averaging methods. The pricing results with 1000, 10000, 100000 paths are compared.}
+\label{table:fixed_strike}
+\end{center}
+\end{table}
 
 
 \subsubsection{Strike Scheme}
+Beside the averaging method, the strike scheme also affects the payoff of the Asian option. The fixed strike Asian call option has the payoff
+$$
+C(T) = \max(A(0,T)-K,0)
+$$
+
+For Asian put option, the fixed strike payoff is
+$$
+P(T) = \max(K-A(0,T),0)
+$$
+
+And the floating strike (floating rate) Asian call option has the payoff
+$$
+C(T) = \max(S(T)-kA(0,T),0)
+$$
+where $k=1$ in this report. For Asian put option, the floating strike payoff is
+$$
+P(T) = \max(kA(0,T)-S(T),0)
+$$
+
+Table~\ref{table:floating_strike} presents the Asian option pricing results using arithmetic or geometric averaging methods under the floating strike scheme. The call and put option prices with different number of paths are calculation given the simulation results. Approximately there is $\pm 0.4 \%$ difference between arithmetic and geometric results. The results are not very sensitive to the number of scenarios once it passes 10,000. Comparing to the fixed strike scheme pricing, the floating strike scheme consistently has higher option price except for the Geometric averaging method of put option pricing.
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{c||c|c|c|c}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  Floating Strike & \multicolumn{2}{c|}{Call} & \multicolumn{2}{c}{Put} \\ \hline
+  Averaging & Arithmetic & Geometric & Arithmetic & Geometric \\ \hline
+  1,000 & 5.7635 & 5.9615 & 3.3585 & 3.2349 \\
+  10,000 & 5.8262 & 6.0333 & 3.3782 & 3.2528 \\
+  100,000 & 5.8489 & 6.0574 & 3.395 & 3.2692 \\
+  \hline
+\end{tabular}
+\caption{The Asian pricing results on call and put option type with arithmetic or geometric averaging methods. The pricing results with 1000, 10000, 100000 paths are compared.}
+\label{table:floating_strike}
+\end{center}
+\end{table}
 
 \subsection{Comparison with Theoretical Price}
+Given the GBM dynamic for the underlying stock price movement and $S_{avg}$ as the geometric average of the stock price, $S_{avg}$ is also lognormally distributed. Under the risk neutral assumption, assumption, the geometric average price option can be treated like a regular option with the volatility $\sigma_{adj}$ set equal to $\sigma\sqrt{3}$ and the adjust the dividend yield equal to
+
+$$
+q_{adj} = r - \frac{1}{2} (r-q-\frac{\sigma^2}{6}) = \frac{1}{2} (r+q+\frac{\sigma^2}{6})
+$$ 
+
+Using the Black-Scholes-Merton formula, we price geometric average price Asian options as 
+
+\begin{eqnarray*}
+C(0) &=& S_0 e^{-q_{adj}T} N(d_1) - Ke^{-rT}N(d_2) \\
+P(0) &=& Ke^{-rT}N(-d_2) - S_0 e^{-q_{adj}T} N(-d_1)
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+\sigma_{adj} &=& \sigma\sqrt{3} \\
+q_{adj} &=& \frac{1}{2} (r+q+\frac{\sigma^2}{6}) \\
+d_1 &=& \frac{1}{\sigma_{adj}\sqrt{T}}\left( \log(\frac{S_0}{K})+ (r-q_{adj}+\frac{1}{2}\sigma_{adj}^2)T\right) \\
+d_2 &=& d_1 - \sigma_{adj}\sqrt{T}
+\end{eqnarray*}
 
 \section{Extensions}
 

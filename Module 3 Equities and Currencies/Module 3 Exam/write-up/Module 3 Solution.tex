@@ -370,13 +370,34 @@ where $d W_t^S d W_t^\nu = \rho dt$. The simulation algorithm is shown in Algori
 \For{$\omega=1$ to $M$}    \Comment{Define number of scenarios}
 \State Generate $\phi_1$ and $\phi_2$ with correlation $\rho$
 \State $\nu(i,\omega)= \nu(i-1,\omega)  + \kappa(\theta - \nu_t) \Delta t + \xi * \phi_2 * \sqrt{\nu(i-1,\omega) \Delta t} + \frac{1}{4} * \xi^2 *(\phi^2-1)*\Delta t$
-\State $S(i,\omega)= S(i-1,\omega) * (1 + r * \Delta t + \sqrt{\nu(i,\omega) \Delta t} * \phi_1 + \frac{1}{2} * \nu(i-1,\omega) *(\phi^2-1)*\Delta t)$
+\State $S(i,\omega)= S(i-1,\omega) * (1 + r * \Delta t + \sqrt{\nu(i,\omega) \Delta t} * \phi_1 + \frac{1}{2} * \nu(i,\omega) *(\phi^2-1)*\Delta t)$
 \EndFor
 \EndFor %\label{euclidendwhile}
 \State \textbf{return} $\{S\}$  %\Comment{The gcd is b}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+The Asian option pricing accuracy with Heston model is not expected to over-perform the Geometric Brownian Motion process. The argument is that the Heston model has no data to calibrate in current context. However, the practical utilization will benefit from this stochastic volatility model, since it provides more market associated and consistent stock price dynamics. For illustration purpose, the Heston parameters are conjectured based on the Black-Scholes parameters given in the context, with $\kappa = 1.05, \xi = 0.35, \rho = -0.5, \nu_0 = 0.04, \theta=0.0625$. Table~\ref{table::theo_vs_empi_heston} contains the results from the Heston model simulations. The Asian option pricing results converge to the theoretical values with the increase of the number of scenarios. Though the pricing accuracy is not strictly better than the Geometric Brownian Motion, the (almost consistently) overestimation on Asian option price is mainly from the higher implied volatility target used in the Heston model (the long term volatility target is 25\%, compared to the 20\% initial value).
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{c||c|c|c|c|c|c|c}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  Type & Path/Avg. & Arith. & Theo. Arith. & \% Diff & Geo. & Theo. Geo. & \% Diff \\ \hline
+\multirow{3}{*}{Call}	&	1000	&	5.9547	&	5.7828	&	2.97\%	&	5.6939	&	5.5468	&	2.65\%	\\
+&	10000	&	5.953	&	5.7828	&	2.94\%	&	5.6921	&	5.5468	&	2.62\%	\\
+&	100000	&	5.8867	&	5.7828	&	1.80\%	&	5.6313	&	5.5468	&	1.52\%	\\ \hline
+\multirow{3}{*}{Put}	&	1000	&	3.4938	&	3.3646	&	3.84\%	&	3.6428	&	3.4633	&	5.18\%	\\
+&	10000	&	3.4334	&	3.3646	&	2.04\%	&	3.583	&	3.4633	&	3.46\%	\\
+&	100000	&	3.3962	&	3.3646	&	0.94\%	&	3.4398	&	3.4633	&	-0.68\%	\\
+  \hline
+\end{tabular}
+\caption{Comparison between Asian option simulations and theoretical values, using the Heston (1993) volatility model for stock price generation.}
+\label{table::theo_vs_empi_heston}
+\end{center}
+\end{table}
 
 \subsection{Stochastic Interest Rate Modeling}
 The constant interest rate assumption can also be extended to have stochastic feature. In this report, the CIR model for spot rate is selected to price the Asian option. The CIR model specification is
@@ -385,11 +406,34 @@ $$
 dr_t = (\eta-\gamma r_t) dt + \sqrt{\alpha r_t} d W_t
 $$
 
-Tje Milstein scheme discretized simulation will be
+The Milstein scheme discretized simulation will be
 
 $$
 r_{t+\Delta t} = r_t + (\eta-\gamma r_t) \Delta t + \sqrt{\alpha r_t \Delta t} \phi + \frac{1}{4} \alpha (\phi^2-1) \Delta t
 $$
+
+Built on top of the Heston volatility model, the Asian option pricing results from the CIR model is shown in Table~\ref{table::theo_vs_empi_cir}. Similar to the Heston model parameter setup, the CIR model has no instruments to calibrate to in the current context. The practical use of the stochastic interest rate model to price exotic option is wide though. The Asian option simulations are slightly better than the solely Heston model.
+
+The CIR model parameters that populate the following estimations are $\eta = 0.05, \gamma=0.8, \alpha = 0.6, r_0 =0.05$. Currently the correlation between random numbers used in interest rate model and equity is set to 0. Another numerical extension would be joint (or hybrid) calibration between IR and equity volatility models.
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{c||c|c|c|c|c|c|c}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  Type & Path/Avg. & Arith. & Theo. Arith. & \% Diff & Geo. & Theo. Geo. & \% Diff \\ \hline
+\multirow{3}{*}{Call}	&	1000	&	5.9304	&	5.7828	&	2.55\%	&	5.6706	&	5.5468	&	2.23\%	\\
+&	10000	&	5.9019	&	5.7828	&	2.06\%	&	5.6432	&	5.5468	&	1.74\%	\\
+&	100000	&	5.8867	&	5.7828	&	1.80\%	&	5.6201	&	5.5468	&	1.32\%	\\  \hline
+\multirow{3}{*}{Put}	&	1000	&	3.4795	&	3.3646	&	3.41\%	&	3.628	&	3.4633	&	4.76\%	\\
+&	10000	&	3.2679	&	3.3646	&	-2.87\%	&	3.5758	&	3.4633	&	3.25\%	\\
+&	100000	&	3.3962	&	3.3646	&	0.94\%	&	3.4103	&	3.4633	&	-1.53\%	\\
+  \hline
+\end{tabular}
+\caption{Comparison between Asian option simulations and theoretical values, using the CIR interest rate model for stock price generation.}
+\label{table::theo_vs_empi_cir}
+\end{center}
+\end{table}
 
 \section{Conclusion}
 In this report, the Milstein scheme Monte Carlo simulation technique is explored and implemented into Asian option pricing. The scenarios generated from the Geometric Brownian Motion pass the distribution and Martingale testings, showing that the stock price paths have expected mathematical properties needed in risk neutral pricing. Then these paths are used in Asian option pricing with antithetic variable technique. We discussed both averaging methods (arithmetic vs. geometric) and strike scheme (fixed strike vs. floating strike). Numerical results from Monte Carlo pricing are compared to (approximation for arithmetic averaging) theoretical Asian option values. The pricing accuracy improves with the increase on the number of scenarios. Finally the Asian option pricing framework is extended to stochastic volatility model and stochastic interest rate model. Both of the extended models benefits the economic scenario generator in terms of market consistency.

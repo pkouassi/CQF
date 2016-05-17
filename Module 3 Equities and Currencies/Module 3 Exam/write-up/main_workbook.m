@@ -38,3 +38,28 @@ d1_arith = (1/(sigma_adj_arith*sqrt(tau)))*(log(M1/E)+...
 d2_arith = d1_arith - sigma_adj_arith*sqrt(tau);
 asian_call_theo_arith = exp(-r*tau)*(M1*normcdf(d1_arith)-E*normcdf(d2_arith));
 asian_put_theo_arith = exp(-r*tau)*(E*normcdf(-d2_arith)-M1*normcdf(-d1_arith));
+
+% Heston extension
+Heston.kappa = 1.05;
+Heston.theta = 0.0625;
+Heston.xi = 0.35;
+Heston.rho = -0.5;
+Heston.v0 = Sigma^2;
+S_Heston_1000 = milstein_scheme_Heston(S0, tau, Heston, r, 1000, 0);
+S_Heston_10000 = milstein_scheme_Heston(S0, tau, Heston, r, 10000, 0);
+S_Heston_100000 = milstein_scheme_Heston(S0, tau, Heston, r, 100000, 0);
+price_Heston_1000 = asian_option_pricing(S_Heston_1000, tau, E, r, k, 0);
+price_Heston_10000 = asian_option_pricing(S_Heston_10000, tau, E, r, k, 0);
+price_Heston_100000 = asian_option_pricing(S_Heston_100000, tau, E, r, k, 0);
+
+% CIR process
+eta = 0.05;
+gamma = 0.80;
+alpha = 0.60;
+r0 = 0.05;
+r_1000 = mean(abs(milstein_scheme_cir(r0, eta, gamma, alpha, tau, 1000)));
+r_10000 = mean(abs(milstein_scheme_cir(r0, eta, gamma, alpha, tau, 10000)));
+r_100000 = mean(abs(milstein_scheme_cir(r0, eta, gamma, alpha, tau, 100000)));
+price_CIR_Heston_1000 = asian_option_pricing(S_Heston_1000, tau, E, r_1000, k, 0);
+price_CIR_Heston_10000 = asian_option_pricing(S_Heston_10000, tau, E, r_10000, k, 0);
+price_CIR_Heston_100000 = asian_option_pricing(S_Heston_100000, tau, E, r_100000, k, 0);

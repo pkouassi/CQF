@@ -3,9 +3,10 @@
 \usepackage{amssymb, amsmath, amsthm}
 \usepackage{setspace}
 \usepackage{amsfonts}
-%\usepackage{algorithm}
-%\usepackage[noend]{algpseudocode}
-
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\usepackage{multirow}% http://ctan.org/pkg/multirow
+\usepackage{hhline}% http://ctan.org/pkg/hhline
 %-----------Margin, Linespread, Spacing-----------%
 \usepackage[letterpaper, margin=1.3in]{geometry}
 \usepackage[letterpaper]{geometry}
@@ -106,25 +107,25 @@ The antithetic variable technique attempts to reduce the variance by introducing
 
 The pairs $\{(\phi^{n},-\phi^{n})\}$ are distributed more desirable than $2n$ independent samples, since the samples with antithetic variable have mean 0 and negative correlation.
 
-%The whole simulation procedure is shown in Algorithm~\ref{alg:esg}.
+The whole simulation procedure is shown in Algorithm~\ref{alg:esg}.
 
-%\begin{algorithm}
-%\caption{Stock Price Generation}\label{alg:esg}
-%\begin{algorithmic}[1]
-%\Procedure{$S_T$ Projection}{$S_0,T-t,\sigma,r$} %\Comment{The g.c.d. of a and b}
-%\State $S_1(0,:) = S_0$, $S_2(0,:) = S_0$
-%\State $N = (T-t)/\Delta t$ \Comment{Define number of time steps}
-%\For{$i=1$ to $N$} %\Comment{We have the answer if r is 0}
-%\For{$\omega=1$ to $M$}    \Comment{Define number of scenarios}
-%\State Generate $\phi$
-%\State $S_1(i,\omega)= S_1(i-1,\omega) * (1 + r * \Delta t + \sigma * \phi * \sqrt{\Delta t} + \frac{1}{2} * \sigma^2 *(\phi^2-1)*\Delta t)$
-%\State $S_2(i,\omega)= S_2(i-1,\omega) * (1 + r * \Delta t + \sigma * (-\phi) * \sqrt{\Delta t} + \frac{1}{2} * \sigma^2 *(\phi^2-1)*\Delta t)$
-%\EndFor
-%\EndFor %\label{euclidendwhile}
-%\State \textbf{return} $\{S_1, S_2\}$  %\Comment{The gcd is b}
-%\EndProcedure
-%\end{algorithmic}
-%\end{algorithm}
+\begin{algorithm}
+\caption{Stock Price Generation}\label{alg:esg}
+\begin{algorithmic}[1]
+\Procedure{$S_T$ Projection}{$S_0,T-t,\sigma,r$} %\Comment{The g.c.d. of a and b}
+\State $S_1(0,:) = S_0$, $S_2(0,:) = S_0$
+\State $N = (T-t)/\Delta t$ \Comment{Define number of time steps}
+\For{$i=1$ to $N$} %\Comment{We have the answer if r is 0}
+\For{$\omega=1$ to $M$}    \Comment{Define number of scenarios}
+\State Generate $\phi$
+\State $S_1(i,\omega)= S_1(i-1,\omega) * (1 + r * \Delta t + \sigma * \phi * \sqrt{\Delta t} + \frac{1}{2} * \sigma^2 *(\phi^2-1)*\Delta t)$
+\State $S_2(i,\omega)= S_2(i-1,\omega) * (1 + r * \Delta t + \sigma * (-\phi) * \sqrt{\Delta t} + \frac{1}{2} * \sigma^2 *(\phi^2-1)*\Delta t)$
+\EndFor
+\EndFor %\label{euclidendwhile}
+\State \textbf{return} $\{S_1, S_2\}$  %\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 In this report, the input parameters for the simulation are set as $S0 = 100$, $E = 100$, $T-t=1$, $\Delta t = 1/365$, $\sigma = 20\%$, $r = 5\%$ and $\omega = 1000$. Therefore, each time step represents a time increment of one calendar day, and there will be 2000 scenarios/paths of underlying stock price using antithetic variable.
 
@@ -205,7 +206,7 @@ Figure~\ref{fig::geo_vs_arith} shows the stock price simulation and its arithmet
 \end{figure}
 
 
-Table~\ref{table:fixed_strike} presents the Asian option pricing results using arithmetic or geometric averaging methods. The call and put option prices with different number of paths are calculation given the simulation results. Approximately there is $\pm 0.4 \%$ difference between arithmetic and geometric results. The results are not very sensitive to the number of scenarios once it passes 10,000. 
+Table~\ref{table:fixed_strike} presents the Asian option pricing results using arithmetic or geometric averaging methods. The call and put option prices with different number of paths are calculation given the simulation results. Approximately there is $\pm 0.4 \%$ difference between arithmetic and geometric results. The results are not very sensitive to the number of scenarios once it passes 10,000.
 
 \begin{table}[htb]
 \begin{center}
@@ -269,9 +270,9 @@ Given the GBM dynamic for the underlying stock price movement and $S_{avg}$ as t
 
 $$
 q_{adj} = r - \frac{1}{2} (r-q-\frac{\sigma^2}{6}) = \frac{1}{2} (r+q+\frac{\sigma^2}{6})
-$$ 
+$$
 
-Using the Black-Scholes-Merton formula, we price geometric average price Asian options as 
+Using the Black-Scholes-Merton formula, we price geometric average price Asian options as
 
 \begin{eqnarray*}
 C(0) &=& S_0 e^{-q_{adj}T} N(d_1) - Ke^{-rT}N(d_2) \\
@@ -285,7 +286,114 @@ d_1 &=& \frac{1}{\sigma_{adj}\sqrt{T}}\left( \log(\frac{S_0}{K})+ (r-q_{adj}+\fr
 d_2 &=& d_1 - \sigma_{adj}\sqrt{T}
 \end{eqnarray*}
 
+An arithmetic average of a set of lognormal random variables is not itself lognormal. This distribution is expressed by the German–Yor formulas. And we can approximate this complicated distribution by a lognormal distribution by using the Turnbull–Wakeman approximation.
+
+The first moment of the continuous arithmetic average price distribution in $[t,T]$.
+
+$$
+M_1 = \frac{e^{(r-q)T}-1}{(r-q)T}S_0
+$$
+
+The second moment of the continuous arithmetic average:
+
+$$
+M2 = \frac{2e^{2(r-q)+\sigma^2}S_0^2}{(r+q+\sigma^2)(2r-2q+\sigma^2)T^2} + \frac{2S_0^2}{(r-q)T^2}\left(\frac{1}{2(r-q)+\sigma^2}-\frac{e^(r-q)T}{r-q+\sigma^2}\right)
+$$
+
+If we assume the the average asset price is lognormal, the arithmetic average price option can be treated like an option on a future contract, where:
+
+\begin{eqnarray*}
+F_0 &=& M_1 \\
+\sigma_{adj}^2 &=& \frac{1}{T} \log(\frac{M_2}{M_1^2})
+\end{eqnarray*}
+
+By using the Black-Scholes-Merton formula, we price arithmetic average price Asian options:
+
+
+\begin{eqnarray*}
+C(0) &=& e^{-rT}(F_0 N(d_1)-KN(d_2)) \\
+P(0) &=& e^{-rT}(KN(-d_2)-F_0 N(d_1))
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+F_0 &=& M_1 \\
+\sigma_{adj}^2 &=& \frac{1}{T} \log(\frac{M_2}{M_1^2}) \\
+d_1 &=& \frac{1}{\sigma_{adj}\sqrt{T}}\left( \log(\frac{F_0}{K})+ \frac{1}{2}\sigma_{adj}^2)T\right) \\
+d_2 &=& d_1 - \sigma_{adj}\sqrt{T}
+\end{eqnarray*}
+
+The comparison between the (approximate) theoretical option price and simulation option price are shown in Table~\ref{table::theo_vs_empi}. For both call option and put options, simulated price from more scenarios consistently is closer to the theoretical value, whichever averaging method is chosen (either arithmetic or geometric). Another interesting observation is that call option prices from simulations are generally more accurate than the option price simulations, in terms of the comparison to the theoretical value. A more puzzling phenomenon is that all the simulations tend to underestimate the Asian option. A plausible explanation is that the volatility term is underestimated, which causes both call and put options to be underpriced. The potential solution is to model the underlying stock price by stochastic volatility models.
+
+\begin{table}[htb]
+\begin{center}
+\begin{tabular}{c||c|c|c|c|c|c|c}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  Type & Path/Avg. & Arith. & Theo. Arith. & \% Diff & Geo. & Theo. Geo. & \% Diff \\ \hline
+\multirow{3}{*}{Call}	&	1000	&	5.6991	&	5.7828	&	-1.45\%	&	5.4916	&	5.5468	&	-1.00\%	\\
+	&	10000	&	5.7328	&	5.7828	&	-0.86\%	&	5.5181	&	5.5468	&	-0.52\%	\\
+	&	100000	&	5.7424	&	5.7828	&	-0.70\%	&	5.5262	&	5.5468	&	-0.37\%	\\ \hline
+\multirow{3}{*}{Put}	&	1000	&	3.3107	&	3.3646	&	-1.60\%	&	3.4248	&	3.4633	&	-1.11\%	\\
+	&	10000	&	3.3238	&	3.3646	&	-1.21\%	&	3.4415	&	3.4633	&	-0.63\%	\\
+	&	100000	&	3.3285	&	3.3646	&	-1.07\%	&	3.4465	&	3.4633	&	-0.49\%	\\
+  \hline
+\end{tabular}
+\caption{Comparison between Asian option simulations and theoretical values. Dimensions include option type (call or put), scenario numbers (1000, 10000 or 100000) and averaging method (arithmetic or geometric). The strike scheme is the fixed strike.}
+\label{table::theo_vs_empi}
+\end{center}
+\end{table}
+
+
 \section{Extensions}
+\subsection{Stochastic Volatility Modeling}
+A vast of empirical researches have shown that the implied volatilities in the real world should not assume to be constant over time and moneyness, which is opposite to model setup in the classic Black-Scholes model. In economic scenario generation, stochastic volatility models are widely used to provide market consistency stock price paths. In this report, Heston (1993) model is considered to be an extension to the regular Geometric Brownian Motion, and the corresponding Asian option pricing capability is compared to the GBM dynamic.
+
+The Heston model specification on stock price is
+
+$$
+dS_t = \mu S_t dt + \sqrt{\nu_t} S_t d W_t^S
+$$
+with an additional stochastic volatility process
+
+$$
+d\nu_t = \kappa(\theta - \nu_t) dt + \xi \sqrt{\nu_t} d W_t^\nu
+$$
+where $d W_t^S d W_t^\nu = \rho dt$. The simulation algorithm is shown in Algorithm~\ref{alg::stochastic_vol}.
+
+\begin{algorithm}
+\caption{Stock Price Generation}\label{alg::stochastic_vol}
+\begin{algorithmic}[1]
+\Procedure{$S_T$ Projection Stochastic Volatility}{$S_0, \nu_0,T-t,\sigma,\kappa,\theta,\xi,\rho,r$} %\Comment{The g.c.d. of a and b}
+\State $S(0,:) = S_0$
+\State $N = (T-t)/\Delta t$ \Comment{Define number of time steps}
+\For{$i=1$ to $N$} %\Comment{We have the answer if r is 0}
+\For{$\omega=1$ to $M$}    \Comment{Define number of scenarios}
+\State Generate $\phi_1$ and $\phi_2$ with correlation $\rho$
+\State $\nu(i,\omega)= \nu(i-1,\omega)  + \kappa(\theta - \nu_t) \Delta t + \xi * \phi_2 * \sqrt{\nu(i-1,\omega) \Delta t} + \frac{1}{4} * \xi^2 *(\phi^2-1)*\Delta t$
+\State $S(i,\omega)= S(i-1,\omega) * (1 + r * \Delta t + \sqrt{\nu(i,\omega) \Delta t} * \phi_1 + \frac{1}{2} * \nu(i-1,\omega) *(\phi^2-1)*\Delta t)$
+\EndFor
+\EndFor %\label{euclidendwhile}
+\State \textbf{return} $\{S\}$  %\Comment{The gcd is b}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Stochastic Interest Rate Modeling}
+The constant interest rate assumption can also be extended to have stochastic feature. In this report, the CIR model for spot rate is selected to price the Asian option. The CIR model specification is
+
+$$
+dr_t = (\eta-\gamma r_t) dt + \sqrt{\alpha r_t} d W_t
+$$
+
+Tje Milstein scheme discretized simulation will be
+
+$$
+r_{t+\Delta t} = r_t + (\eta-\gamma r_t) \Delta t + \sqrt{\alpha r_t \Delta t} \phi + \frac{1}{4} \alpha (\phi^2-1) \Delta t
+$$
+
+\section{Conclusion}
+In this report, the Milstein scheme Monte Carlo simulation technique is explored and implemented into Asian option pricing. The scenarios generated from the Geometric Brownian Motion pass the distribution and Martingale testings, showing that the stock price paths have expected mathematical properties needed in risk neutral pricing. Then these paths are used in Asian option pricing with antithetic variable technique. We discussed both averaging methods (arithmetic vs. geometric) and strike scheme (fixed strike vs. floating strike). Numerical results from Monte Carlo pricing are compared to (approximation for arithmetic averaging) theoretical Asian option values. The pricing accuracy improves with the increase on the number of scenarios. Finally the Asian option pricing framework is extended to stochastic volatility model and stochastic interest rate model. Both of the extended models benefits the economic scenario generator in terms of market consistency.
+
 
 %\section*{Matlab code}
 %\begin{spacing}{0.9}

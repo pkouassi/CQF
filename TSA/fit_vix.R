@@ -7,6 +7,9 @@ vix_index_daily = read.csv("vix_m.csv")
 log.vix.m = log(vix_indeX_monthly[,2])
 log.vix.d = log(vix_index_daily[,2])
 
+
+############################################################################
+########################   Empirical TSA   #################################
 # stationary check
 plot(log.vix.m, type='l', col='blue',main='Monthly log(VIX)')
 acf(log.vix.m)   # not stationary
@@ -42,4 +45,12 @@ fit.para.final[short.term[short.term.index]] = NA   # fit the short term VIX
 fit.para.final[long.term[long.term.index]] = NA   # fit the long term VIX
 #fit.para.final[max(long.term)+1] = NA  # fit the intercept
 fit.arima.final = arima(d.log.vix.m, order=c(max(long.term),0,0), fixed=fit.para.final)
+############################################################################
 
+############################################################################
+#####################   State Variable Method   ############################
+
+
+
+
+############################################################################

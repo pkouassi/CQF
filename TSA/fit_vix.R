@@ -52,6 +52,8 @@ fit.arima.final = arima(d.log.vix.m, order=c(max(long.term),0,0), fixed=fit.para
 library(dse)
 
 # univariate model
+optim(c(0.2,0.5,1,0,1),vit.fit.dse.likelihood)
+
 vit.fit.dse = dse::SS(F = matrix(-0.06896509, 1, 1), 
                       Q = matrix(0.1783604, 1, 1),
                       H = matrix(1, 1, 1), 
@@ -77,6 +79,21 @@ vit.fit.dse.2factor = dse::SS(F = f, Q = q,
                       H = h, R = r)
 vit.m.fit.dse.2factor <- estMaxLik(vit.fit.dse.2factor, TSdata(output = cbind(log.vix.m,log.vix.m)))
 vit.m.fit.dse.2factor$model
+
+vit.fit.dse.likelihood <- function(f=0.5,q=0.5,h=1,r=0,g=0.5){
+  vit.fit.dse.local = dse::SS(F = matrix(f, 1, 1), 
+                        Q = matrix(q, 1, 1),
+                        H = matrix(h, 1, 1), 
+                        R = matrix(r, 1, 1),               
+                        G = matrix(g, 1, 1),       # k_y * mu_y * dt
+                        constants = list(R = matrix(TRUE, 1, 1),H = matrix(TRUE, 1, 1)),
+                        z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
+  vit.m.fit.dse <- estMaxLik(vit.fit.dse.local, TSdata(input = rep(1,length(log.vix.m)), output = log.vix.m))
+  #vit.m.fit.dse$model
+  results = vit.m.fit.dse$estimates$results$value
+  return(results)
+}
+
 
 ############################################################################
 

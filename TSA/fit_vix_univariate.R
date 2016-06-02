@@ -1,8 +1,8 @@
 setwd("H:\\Users\\Ran Zhao\\Research\\Fitting VIX")
 
 # load in data, daily/monthly
-vix_indeX_monthly = read.csv("vix_m.csv")
-vix_index_daily = read.csv("vix_d.csv")
+vix_indeX_monthly = read.csv("vix_d.csv")
+vix_index_daily = read.csv("vix_m.csv")
 
 log.vix.m = log(vix_indeX_monthly[,2])
 log.vix.d = log(vix_index_daily[,2])
@@ -52,78 +52,29 @@ fit.arima.final = arima(d.log.vix.m, order=c(max(long.term),0,0), fixed=fit.para
 library(dse)
 
 # univariate model 1
-output.model1 = optim(c(0.83,0.13,1,0,0.53),vit.fit.dse.likelihood.model1)
+output.model1 = optim(c(0.82,0.13,1,0,0.51),vit.fit.dse.likelihood.model1)
 k = (1-output.model1$par[1])*12
 mu = (output.model1$par[5]/k)*12
-sigma_y = output.model1$par[3] * sqrt(12)
+sigma_y = output.model1$par[2] * sqrt(12)
 k
 mu
 sigma_y
 
-vit.fit.dse.model1 = dse::SS(F = matrix(output.model1$par[1], 1, 1), 
-                             Q = matrix(output.model1$par[2], 1, 1),
-                             H = matrix(output.model1$par[3], 1, 1), 
-                             R = matrix(output.model1$par[4], 1, 1),               
-                             G = matrix(output.model1$par[5], 1, 1),       # k_y * mu_y * dt
-                             constants = list(R = matrix(TRUE, 1, 1),H = matrix(TRUE, 1, 1)),
-                             z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
-optimal.model1 = estMaxLik(vit.fit.dse.model1, TSdata(input = rep(1,length(log.vix.d)), output = log.vix.d))
-rmse.model1 = sqrt(sum((optimal.model1$estimates$pred - log.vix.d)^2)/length(log.vix.d))
-
 # univariate model 2
-output.model2 = optim(c(0.83,0.13,1,0,0.53),vit.fit.dse.likelihood.model2)
+output.model2 = optim(c(0.82,0.13,1,0,0.51),vit.fit.dse.likelihood.model2)
 k = (1-output.model2$par[1])*12
 mu = (output.model2$par[5]/k)*12
-sigma_y = output.model2$par[3] 
+sigma_y = output.model2$par[2] * sqrt(12)
 sigma_e = output.model2$par[4]
 k
 mu
-sigma_y/(2*k)
+sigma_y
 sigma_e
 
-vit.fit.dse.model2 = dse::SS(F = matrix(output.model2$par[1], 1, 1), 
-                                             Q = matrix(output.model2$par[2], 1, 1),
-                                             H = matrix(output.model2$par[3], 1, 1), 
-                                             R = matrix(output.model2$par[4], 1, 1),               
-                                             G = matrix(output.model2$par[5], 1, 1),       # k_y * mu_y * dt
-                                             #constants = list(R = matrix(TRUE, 1, 1),H = matrix(TRUE, 1, 1)),
-                                             z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
-optimal.model2 = estMaxLik(vit.fit.dse.model2, TSdata(input = rep(1,length(log.vix.d)), output = log.vix.d))
-rmse.model2 = sqrt(sum((optimal.model2$estimates$pred - log.vix.d)^2)/length(log.vix.d))
-
-
-#vit.m.fit.dse$model
-results = vit.m.fit.dse$estimates$results$value
-
 # multivariate model 3
-in_arg = c(.2,.6,.05,0.1,0.5)
+in_arg = c(.2,.6,.05,0.5,0.5)
 output.model3 =  optim(in_arg, vit.fit.dse.likelihood.model3)
 
-k_y = (output.model3$par[1])*12
-k_x = (1-output.model3$par[2])*12
-mu = (output.model3$par[5]/k)*12
-sigma_y = output.model3$par[3] * sqrt(12)
-sigma_x = output.model3$par[4] 
-k_y
-k_x
-mu
-sigma_y
-sigma_x
-
-f <- array(c(1-output.model3$par[1],0,output.model3$par[1],output.model3$par[2]),c(2,2))
-h <- array(c(1,0,0,1),c(2,2))
-q <- array(c(.1,0,0,output.model3$par[3]),c(2,2))
-r <- array(c(1,0,0,1),c(2,2))
-g <- array(c(output.model3$par[4],0,0,output.model3$par[5]),c(2,2))
-vit.fit.dse.2factor.model3 = dse::SS(F = f,
-                                    Q = q,
-                                    H = h, 
-                                    R = r, 
-                                    G = g,
-                                    z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
-optimal.model3 <- estMaxLik(vit.fit.dse.2factor.model3, 
-                                   TSdata(input = cbind(rep(1,length(log.vix.m)),rep(1,length(log.vix.m))), output = cbind(log.vix.m,log.vix.m)))
-rmse.model3 = sqrt(sum((optimal.model3$estimates$pred - log.vix.m)^2/length(log.vix.m)^2))
 
 ################
 vit.fit.dse = dse::SS(F = matrix(-0.06896509, 1, 1), 
@@ -167,7 +118,7 @@ vit.fit.dse.likelihood.model1 <- function(in_arg){
                         G = matrix(g, 1, 1),       # k_y * mu_y * dt
                         constants = list(R = matrix(TRUE, 1, 1),H = matrix(TRUE, 1, 1)),
                         z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
-  vit.m.fit.dse <- estMaxLik(vit.fit.dse.local, TSdata(input = rep(1,length(log.vix.d)), output = log.vix.d))
+  vit.m.fit.dse <- estMaxLik(vit.fit.dse.local, TSdata(input = rep(1,length(log.vix.m)), output = log.vix.m))
   #vit.m.fit.dse$model
   results = vit.m.fit.dse$estimates$results$value
   return(results)
@@ -183,11 +134,11 @@ vit.fit.dse.likelihood.model2 <- function(in_arg){
   vit.fit.dse.local = dse::SS(F = matrix(f, 1, 1), 
                               Q = matrix(q, 1, 1),
                               H = matrix(h, 1, 1), 
-                              R = matrix(r, 1, 1),               
+                              R = matrix(r, 1, 1),
                               G = matrix(g, 1, 1),       # k_y * mu_y * dt
                               #constants = list(R = matrix(TRUE, 1, 1),H = matrix(TRUE, 1, 1)),
                               z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
-  vit.m.fit.dse <- estMaxLik(vit.fit.dse.local, TSdata(input = rep(1,length(log.vix.d)), output = log.vix.d))
+  vit.m.fit.dse <- estMaxLik(vit.fit.dse.local, TSdata(input = rep(1,length(log.vix.m)), output = log.vix.m))
   #vit.m.fit.dse$model
   results = vit.m.fit.dse$estimates$results$value
   return(results)
@@ -197,23 +148,18 @@ vit.fit.dse.likelihood.model2 <- function(in_arg){
 vit.fit.dse.likelihood.model3 <- function(in_arg){
   f <- array(c(1-in_arg[1],0,in_arg[1],in_arg[2]),c(2,2))
   h <- array(c(1,0,0,1),c(2,2))
-  q <- array(c(in_arg[3],0,0,in_arg[4]),c(2,2))
+  q <- array(c(.1,0,0,in_arg[3]),c(2,2))
   r <- array(c(1,0,0,1),c(2,2))
-  g <- array(c(0,0,0,in_arg[5]),c(2,2))
+  g <- array(c(in_arg[4],0,0,in_arg[5]),c(2,2))
   vit.fit.dse.2factor.local = dse::SS(F = f,
-                                      Q = q,
-                                      H = h, 
-                                      R = r, 
-                                      G = g,
-                                      z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
+                                Q = q,
+                                H = h, 
+                                R = r, 
+                                G = g,
+                                z0 = matrix(0, 1, 1), P0 = matrix(10^5, 1, 1))
   vit.m.fit.dse.2factor <- estMaxLik(vit.fit.dse.2factor.local, 
-                                     TSdata(input = cbind(rep(1,length(log.vix.d)),rep(1,length(log.vix.d))), output = cbind(log.vix.d,log.vix.d)))
-  k_y = (in_arg[1])*12
-  k_x = (1-in_arg[2])*12
+                                           TSdata(input = cbind(rep(1,length(log.vix.m)),rep(1,length(log.vix.m))), output = cbind(log.vix.m,log.vix.m)))
   results = vit.m.fit.dse.2factor$estimates$results$value
-  if (k_y < k_x){
-    results = results*2
-  }
   return(results)
 }
 

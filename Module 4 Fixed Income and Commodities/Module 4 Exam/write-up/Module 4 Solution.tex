@@ -137,7 +137,7 @@ $$
 \right.
 $$
 
-The terminal condition, $Z(r,T;T)=1$, must hold for all $r$, and this implies that $A(T,T)=B(T,T)=0$. 
+The terminal condition, $Z(r,T;T)=1$, must hold for all $r$, and this implies that $A(T,T)=B(T,T)=0$.
 
 \bigskip
 
@@ -224,8 +224,46 @@ Then the moments of $U_t$ should be
 
 \bigskip
 
-\textcolor{blue}{\bf 5 }
+\textcolor{blue}{\bf 5 } The HJM framework is to model the evolution of the forward curve. Using the spreadsheet tool provided in the lecture, I perform the caplet option pricing in the HJM model. Generally, the price of caplet option written on 6M LIBOR with forward start date in six months from today is
+$$
+DF_{OIS}(0,1) \times \max(L(0;0.5,1)-K,0) \times \tau \times N
+$$
 
+In the spreadsheet, each calculation provides a pricing of Caplet with given parameters. I wrote a VBA code to perform the refreshing of the spreadsheet for many times, and each refresh generates a new scenario with recalculation on the Caplet. As shown in Figure~\ref{fig::scr_excel}, the button-click will populate 1,000 scenarios, with the annualized forward rate and corresponding Caplet price in each path.
 
+\begin{center}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.4]{spreadsheet.png}
+  \caption{The screen print of the Caplet pricing spreadsheet.}\label{fig::scr_excel}
+\end{figure}
+\end{center}
+
+Figure~\ref{fig::scr_conv} illustrate the convergence of the Caplet price under regular Monte Carlo simulation and under MC simulation with antithetic variance reduction technique. From the graph, the red line (represents the MC simulation with antithetic VR) seems to have lower estimation variance and faster convergence.
+
+\begin{center}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.5]{diagram.png}
+  \caption{The convergence diagram of Caplet pricing with vs. without antithetic variance reduction.}\label{fig::scr_conv}
+\end{figure}
+\end{center}
+
+Table~\ref{tbl::numerical_ret} lists the comparison on the convergence of Caplet price between two MC techniques. The MC with antithetic variance reduction has lower standard deviation on the forward rate estimation (10.23 vs. 12.38), and smaller root mean squared error compared to the Black formula pricing.
+
+\begin{table}
+  \centering
+  \begin{tabular}{|c|c|c|c|} 
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+  MC & Std on Forward Rate & RMSE with Black Formula & Caplet Price \\ \hline
+  Without Antithetic VR  & 12.3812 & 0.0713 & 457.3622 \\
+  With Antithetic VR & 10.2327 & 0.0520 & 456.7854 \\
+  \hline
+  \end{tabular}
+  \caption{Numerical results comparison on Caplet pricing with and without antithetic variance reduction.}\label{tbl::numerical_ret}
+\end{table}
+
+The calculation spreadsheet with VBA and above results is attached to the solution submission.
 
 \end{document} 

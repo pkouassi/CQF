@@ -93,9 +93,25 @@ $$
 \mathbb{P}[\tau \leq T | \tau > t] = N(h_1) + \exp\left\{ 2\left(r-\frac{\sigma_V^2}{2}\right) \log\left( \frac{K}{V_0} \right) \frac{1}{\sigma_V^2} \right\} N(h_2)
 $$
 
-Using the simultaneous equations in (1a) to solve  
+Using the simultaneous equations in (1a) to solve for $V_0$ and $\sigma_V$, we have the following sensitivity between $\sigma_E$ and the probability of default.
 
+\begin{center}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.7]{PDs.eps}
+  \caption{The comparison of probability of default between Merton and Black-Cox Models}\label{fig::PDs}
+\end{figure}
+\end{center}
 
+As shown in Figure~\ref{fig::PDs}, the probability of default increases with higher equity volatility. Intuitively speaking, the higher equity volatility makes it more possible for asset value to fall below the debt, and therefore more like to default. 
+
+The Merton model estimates PD lower than the Black-Cox model, for the reason that the Black-Cox allows for early default than the maturity. Beyond equity volatility as 60\%, the probability of default increases monotonically with the equity volatility, and the PD estimated by Black-Cox model is 0.8\%.
+
+The codes solving the equations are provided in the Appendix.
+
+\bigskip
+
+\textcolor{blue}{\bf 2 a}
 
 
 \section*{Appendix}

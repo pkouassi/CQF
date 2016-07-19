@@ -103,7 +103,7 @@ Using the simultaneous equations in (1a) to solve for $V_0$ and $\sigma_V$, we h
 \end{figure}
 \end{center}
 
-As shown in Figure~\ref{fig::PDs}, the probability of default increases with higher equity volatility. Intuitively speaking, the higher equity volatility makes it more possible for asset value to fall below the debt, and therefore more like to default. 
+As shown in Figure~\ref{fig::PDs}, the probability of default increases with higher equity volatility. Intuitively speaking, the higher equity volatility makes it more possible for asset value to fall below the debt, and therefore more like to default.
 
 The Merton model estimates PD lower than the Black-Cox model, for the reason that the Black-Cox allows for early default than the maturity. Beyond equity volatility as 60\%, the probability of default increases monotonically with the equity volatility, and the PD estimated by Black-Cox model is 0.8\%.
 
@@ -111,13 +111,53 @@ The codes solving the equations are provided in the Appendix.
 
 \bigskip
 
-\textcolor{blue}{\bf 2 a}
+\textcolor{blue}{\bf 2} Before determining the bivariate European binary call option price, we use transformation of Kendall's tau value to solve for the copula parameter $\alpha$. That is
+$$
+\rho_K = 0.35 = 1-\frac{4}{\alpha}[D_1(-\alpha)-1] \qquad D_1(-\alpha) = \frac{1}{\alpha} \int_0^\alpha \frac{x}{e^x-1}dx + \frac{\alpha}{2}
+$$
+Numerically, the $\alpha$ can be solved by equating both sides of the equation in MATLAB. The copula coefficient $\alpha$ is calculated as 0.8777.  The code solving the equations is provided in the Appendix.
+
+Alternatively, TSE on the $\frac{x}{e^x-1}$ contributes on solving the equation analytically. That is,
+\begin{eqnarray*}
+\rho_K &=& 1-\frac{4}{\alpha}[D_1(-\alpha)-1]  \\
+       &=& 1 - \frac{4}{\alpha}\left[\frac{1}{\alpha} \int_0^\alpha \frac{x}{e^x-1}dx + \frac{\alpha}{2}-1\right]  \\
+       &\cong& 1 - \frac{4}{\alpha}\left[\frac{1}{\alpha} \int_0^\alpha (1-\frac{x}{2}+\frac{x^2}{12}) dx + \frac{\alpha}{2}-1\right]  \\
+       &=& 1 - \frac{4}{\alpha}\left[\frac{1}{\alpha} \left. x-\frac{x^2}{4} + \frac{x^3}{36} \right|_0^{\alpha} + \frac{\alpha}{2}-1 \right] \\
+       &=& -\frac{\alpha}{9} \\
+\alpha &=& -3.15
+\end{eqnarray*}
+
+The analytical solution is very different with the exact value. Here we use the $\alpha$ calculation from MATLAB. Then, regarding on the two underlyings, we have 
+
+$$ \left\{
+\begin{aligned}
+u_1 &=& Pr^{\mathbb{Q}}(S_1,T>K) = 1 - N(-d_2^1) = 0.0718 \\
+u_1 &=& Pr^{\mathbb{Q}}(S_1,T>K) = 1 - N(-d_2^2) = 0.3362 
+\end{aligned}
+\right.
+$$
+
+Finally, the bivariate European binary call option price is
+\begin{eqnarray*}
+B(S_1,S_2,t) &=& e^{-r(T-t)} C(u_1, u_2) \\
+             &=& e^{-r(T-t)} \frac{1}{\alpha} \log\left[ 1+ \frac{\Pi_{i=1}^2 (e^{\alpha u_i}-1)}{(e^{\alpha}-1)^{n-1}} \right] \\
+             &=& \frac{1}{\alpha} \log\left[ 1+ \frac{ (e^{\alpha u_1}-1)(e^{\alpha u_2}-1)}{(e^{\alpha}-1)^{n-1}} \right] \\
+             &=& 0.0284
+\end{eqnarray*}
+
+\bigskip
+
+\textcolor{blue}{\bf 3}
 
 
 \section*{Appendix}
 \begin{spacing}{0.9}
 \lstinputlisting[language=Matlab]{compute_E0.m}
 \lstinputlisting[language=Matlab]{compute_value_vol_1a.m}
+\lstinputlisting[language=Matlab]{solve_asset_vol.m}
+\lstinputlisting[language=Matlab]{compare_PD_1b.m}
+\lstinputlisting[language=Matlab]{solve_alpha.m}
+\lstinputlisting[language=Matlab]{correlation_int.m}
 \end{spacing}
 
 \end{document} 

@@ -127,12 +127,12 @@ Alternatively, TSE on the $\frac{x}{e^x-1}$ contributes on solving the equation 
 \alpha &=& -3.15
 \end{eqnarray*}
 
-The analytical solution is very different with the exact value. Here we use the $\alpha$ calculation from MATLAB. Then, regarding on the two underlyings, we have 
+The analytical solution is very different with the exact value. Here we use the $\alpha$ calculation from MATLAB. Then, regarding on the two underlyings, we have
 
 $$ \left\{
 \begin{aligned}
 u_1 &=& Pr^{\mathbb{Q}}(S_1,T>K) = 1 - N(-d_2^1) = 0.0718 \\
-u_1 &=& Pr^{\mathbb{Q}}(S_1,T>K) = 1 - N(-d_2^2) = 0.3362 
+u_1 &=& Pr^{\mathbb{Q}}(S_1,T>K) = 1 - N(-d_2^2) = 0.3362
 \end{aligned}
 \right.
 $$
@@ -147,8 +147,42 @@ B(S_1,S_2,t) &=& e^{-r(T-t)} C(u_1, u_2) \\
 
 \bigskip
 
-\textcolor{blue}{\bf 3}
+\textcolor{blue}{\bf Credit Curve 1} The CDS with accruals has premium leg and default leg as
 
+$$ \left\{
+\begin{aligned}
+PL_N &=& S_N \sum_{n=1}^N D(0,T_n)P(T_n)(\Delta t_n) + S_N \sum_{n=1}^N D(0,T_n)[P(T_{n-1})-P(T_n)]\frac{(\Delta t_n)}{2} \\
+DL_N &=& (1-R) \sum_{n=1}^N D(0,T_n)[P(T_{n-1})-P(T_n)]
+\end{aligned}
+\right.
+$$
+
+For every $\Delta t= 0.25$, I use log-linear interpolation for the discount factor and linear interpolation for the hazard rate provided in Table 1. Equalizing the premium leg and the default at each projection period yields the CDS spread at each time. The construction of the Solver and formulas is shown in the attached Excel spreadsheet (tab '1 price CDS'). The credit spreads in each period are shown below (in basis points). 
+
+\begin{center}
+\begin{tabular}{|c|c|}
+  \hline
+  % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
+T	&	Credit Sprad (bps)	\\ \hline
+0.25	&	44.77498356	\\
+0.5	&	37.28987477	\\
+0.75	&	29.78659427	\\
+1	&	37.16477982	\\
+1.25	&	51.04035289	\\
+1.5	&	57.778867	\\
+1.75	&	60.34922099	\\
+2	&	68.14575199	\\
+2.25	&	76.48065127	\\
+2.5	&	82.52260811	\\
+2.75	&	86.872272	\\
+3	&	92.18673222	\\
+  \hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\textcolor{blue}{\bf Credit Curve 2} 
 
 \section*{Appendix}
 \begin{spacing}{0.9}

@@ -98,7 +98,7 @@ Using the simultaneous equations in (1a) to solve for $V_0$ and $\sigma_V$, we h
 \begin{center}
 \begin{figure}
   \centering
-  \includegraphics[scale=0.7]{PDs.eps}
+  \includegraphics[scale=0.3]{PDs.png}
   \caption{The comparison of probability of default between Merton and Black-Cox Models}\label{fig::PDs}
 \end{figure}
 \end{center}
@@ -157,32 +157,91 @@ DL_N &=& (1-R) \sum_{n=1}^N D(0,T_n)[P(T_{n-1})-P(T_n)]
 \right.
 $$
 
-For every $\Delta t= 0.25$, I use log-linear interpolation for the discount factor and linear interpolation for the hazard rate provided in Table 1. Equalizing the premium leg and the default at each projection period yields the CDS spread at each time. The construction of the Solver and formulas is shown in the attached Excel spreadsheet (tab '1 price CDS'). The credit spreads in each period are shown below (in basis points). 
+For every $\Delta t= 0.25$, I use log-linear interpolation for the discount factor and linear interpolation for the hazard rate provided in Table 1. Equalizing the premium leg and the default at each projection period yields the CDS spread at each time. The construction of the Solver and formulas is shown in the attached Excel spreadsheet (tab '1 price CDS'). The credit spreads in each period are shown below (in basis points).
 
 \begin{center}
 \begin{tabular}{|c|c|}
   \hline
   % after \\: \hline or \cline{col1-col2} \cline{col3-col4} ...
 T	&	Credit Sprad (bps)	\\ \hline
-0.25	&	44.77498356	\\
-0.5	&	37.28987477	\\
-0.75	&	29.78659427	\\
-1	&	37.16477982	\\
-1.25	&	51.04035289	\\
-1.5	&	57.778867	\\
-1.75	&	60.34922099	\\
-2	&	68.14575199	\\
-2.25	&	76.48065127	\\
-2.5	&	82.52260811	\\
-2.75	&	86.872272	\\
-3	&	92.18673222	\\
+0.25	&	44.7750	\\
+0.5	&	37.2899	\\
+0.75	&	29.7866	\\
+1	&	37.1648	\\
+1.25	&	51.0404	\\
+1.5	&	57.7789	\\
+1.75	&	60.3492	\\
+2	&	68.1458	\\
+2.25	&	76.4806	\\
+2.5	&	82.5226 \\
+2.75	&	86.8723	\\
+3	&	92.1867	\\
   \hline
 \end{tabular}
 \end{center}
 
 \bigskip
 
-\textcolor{blue}{\bf Credit Curve 2} 
+\textcolor{blue}{\bf Credit Curve 2} The bootstrapping of the survival probabilities requires the equalization on PL and DL on each period. For the first period we have
+$$
+P(T_1) = \frac{L}{L+\Delta t_1 S_1}
+$$
+where $L=(1-R)$ using the fact that $P(T_0)=1$. When $N\geq 2$, we have
+$$
+P(T_N)=\frac{\sum_{n=1}^{N-1}D(0,T_n)[LP(T_{n-1})-(L+\Delta t_n S_N)P(T_n)]}{D(0,T_N)(L+\Delta t_n S_N)} + \frac{P(T_{N-1})L}{L+\Delta t_N S_N}
+$$
+
+The implementation is on '2 bootstrap PrSurv' tab of the attached spreadsheet. And the bootstrapped survival probabilities are shown below.
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+T	&	DF	&	$P(T_i)$	\\
+0	&	1.0000	&	1.0000	\\
+1	&	0.9920	&	0.9769	\\
+2	&	0.9841	&	0.9469	\\
+3	&	0.9763	&	0.9160	\\
+4	&	0.9685	&	0.8826	\\
+5	&	0.9608	&	0.8503	\\
+  \hline
+\end{tabular}
+\end{center}
+
+\bigskip
+
+\textcolor{blue}{\bf Credit Curve 3} The hazard rates are in turn calculated as
+$$
+P(0,T)=\exp\left( -\sum_{t=1}^T \lambda_t \Delta t \right) \qquad \lambda_m = \frac{1}{\Delta t} \log \frac{P(0,t_m)}{P(o,t_{m-1})}
+$$
+
+and we yield
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+  \hline
+T	&	$P(T_i)$	&	Hazard Rate	\\
+0	&	1.0000	&	0.0000	\\
+1	&	0.9769	&	0.0234	\\
+2	&	0.9469	&	0.0312	\\
+3	&	0.9160	&	0.0332	\\
+4	&	0.8826	&	0.0372	\\
+5	&	0.8503	&	0.0373	\\
+
+  \hline
+\end{tabular}
+\end{center}
+
+The exponential pdf $f(t)=\lambda e^{-\lambda t}$ is plotted in Figure~\ref{fig::pdf}.
+
+\begin{center}
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.7]{epdf.png}
+  \caption{The exponential pdf of hazard rate}\label{fig::pdf}
+\end{figure}
+\end{center}
+
+From the graph, the density of the hazard rate is very instable due to the piecewise constant assumption on $\lambda$. Especially on the year-change, the density jumps up. However, a linear interpolation on the hazard rate will yield a much smoothier exponential density.
 
 \section*{Appendix}
 \begin{spacing}{0.9}

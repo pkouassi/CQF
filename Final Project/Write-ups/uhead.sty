@@ -1,0 +1,32 @@
+%UHEAD.STY  If this is included after \documentstyle{report}, it adds
+% an underlined heading style to the LaTeX report style.
+% \pagestyle{uheadings} will put underlined headings at the top
+% of each page. The right page headings are the Chapter titles and
+% the left page titles are supplied by \def\lefthead{text}.
+
+% Ted Shapin, Dec. 17, 1986
+
+\makeatletter
+\def\chapapp2{Chapter}
+
+\def\appendix{\par
+ \setcounter{chapter}{0}
+ \setcounter{section}{0}
+ \def\chapapp2{Appendix}
+ \def\@chapapp{Appendix}
+ \def\thechapter{\Alph{chapter}}}
+
+\def\ps@uheadings{\let\@mkboth\markboth
+% modifications
+\def\@oddhead{\protect\underline{\protect\makebox[\textwidth][l]
+		{\sl\rightmark\hfill\rm\thepage}}}
+\def\@oddfoot{}
+\def\@evenfoot{}
+\def\@evenhead{\protect\underline{\protect\makebox[\textwidth][l]
+		{\rm\thepage\hfill\sl\leftmark}}}
+% end of modifications
+\def\chaptermark##1{\markboth {\ifnum \c@secnumdepth >\m@ne
+ \chapapp2\ \thechapter. \ \fi ##1}{}}%
+\def\sectionmark##1{\markright {\ifnum \c@secnumdepth >\z@
+   \thesection. \ \fi ##1}}}
+\makeatother

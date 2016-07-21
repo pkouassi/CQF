@@ -1,0 +1,91 @@
+%%From: marcel@cs.caltech.edu (Marcel van der Goot)
+%%Newsgroups: comp.text.tex
+%%Subject: illegal modification of boxit.sty
+%%Date: 28 Feb 92 01:10:02 GMT
+%%Organization: California Institute of Technology (CS dept)
+%%Nntp-Posting-Host: andromeda.cs.caltech.edu
+%%
+%%
+%%Quite some time ago I posted a file boxit.sty; maybe it made it
+%%to some archives, although I don't recall submitting it. It defines
+%%	\begin{boxit}
+%%	...
+%%	\end{boxit}
+%%to draw a box around `...', where the `...' can contain other
+%%environments (e.g., a verbatim environment). Unfortunately, it had
+%%a problem: it did not work if you used it in paragraph mode, i.e., it
+%%only worked if there was an empty line in front of \begin{boxit}.
+%%Luckily, that is easily corrected.
+%%
+%%HOWEVER, apparently someone noticed the problem, tried to correct it,
+%%and then distributed this modified version. That would be fine with me,
+%%except that:
+%%1. There was no note in the file about this modification, it only has my
+%%   name in it.
+%%2. The modification is wrong: now it only works if there is *no* empty
+%%   line in front of \begin{boxit}. In my opinion this bug is worse than
+%%   the original one.
+%%
+%%In particular, the author of this modification tried to force an empty
+%%line by inserting a `\\' in the definition of \Beginboxit. If you have
+%%a version of boxit.sty with a `\\', please delete it. If you have my
+%%old version of boxit.sty, please also delete it. Below is an improved
+%%version.
+%%
+%%Thanks to Joe Armstrong for drawing my attention to the bug and to the
+%%illegal version.
+%%
+%%                                          Marcel van der Goot
+%% .---------------------------------------------------------------
+%% | Blauw de viooltjes,                    marcel@cs.caltech.edu
+%% |    Rood zijn de rozen;
+%% | Een rijm kan gezet
+%% |    Met plaksel en dozen.
+%% |
+
+
+% boxit.sty
+% version: 27 Feb 1992
+%
+% Defines a boxit environment, which draws lines around its contents.
+% Usage:
+%   \begin{boxit}
+%	... (text you want to be boxed, can contain other environments)
+%   \end{boxit}
+%
+% The width of the box is the width of the contents.
+% The boxit* environment behaves the same, except that the box will be
+% at least as wide as a normal paragraph.
+%
+% The reason for writing it this way (rather than with the \boxit#1 macro
+% from the TeXbook), is that now you can box verbatim text, as in
+%   \begin{boxit}
+%   \begin{verbatim}
+%   this better come out in boxed verbatim mode ...
+%   \end{verbatim}
+%   \end{boxit}
+%
+%						Marcel van der Goot
+%						marcel@cs.caltech.edu
+%
+
+\def\Beginboxit
+   {\par
+    \vbox\bgroup
+	   \hrule
+	   \hbox\bgroup
+		  \vrule \kern1.2pt %
+		  \vbox\bgroup\kern1.2pt
+   }
+
+\def\Endboxit{%
+			      \kern1.2pt
+		       \egroup
+		  \kern1.2pt\vrule
+		\egroup
+	   \hrule
+	 \egroup
+   }	
+
+\newenvironment{boxit}{\Beginboxit}{\Endboxit}
+\newenvironment{boxit*}{\Beginboxit\hbox to\hsize{}}{\Endboxit}

@@ -1,0 +1,178 @@
+\chapter{How To Use the \texttt{USMthesis} \LaTeX\ Template}
+\label{chap-howtouse}
+
+\lstset{language=[LaTeX]TeX, basicstyle=\ttfamily, columns=flexible}
+
+
+Hello and welcome, \ac{USM} research postgrad!  The \verb|usmthesis| package and template files were written in the hope that they may help you prepare your research thesis using \LaTeX, based on the \ac{IPS} requirements \citep{ips:thesis:guideline:2007}. \textbf{Please note that this version is based on the \emph{new} guidelines, in force 17 Dec 2007 onwards, incorporating feedback received from IPS in August 2015.}
+
+\LaTeX{} is powerful and produces beautiful documents.  However, there is definitely a learning curve to it -- one that is worth the effort.  %This is also a learning process for the author, so 
+If you find any errors in these templates or documents, or have any suggestions or feedback, do e-mail me about it (\path{liantze@gmail.com}).  The author cannot always guarantee prompt response, however. \Smiley
+
+
+
+\section{Bundled Files}
+The bundled \texttt{*.tex} files are meant as template files which you modify or replace to suit your own needs: they hold the actual contents of your own thesis. Let's see how to do this, step by step.
+
+You should have the following files:
+
+\begin{description}[nosep]
+\item[usmthesis.cls] The \texttt{USMthesis} document class file which contains most of the format specifications and configurations, conforming to the requirements set out in the thesis preparation guide issued by IPS.
+\item[usmthesis.tex] The ``main driver'' file. Think of this as the equivalent of \texttt{int main()} or \texttt{public static void main(String [])}.
+\item[mybib.bib] The bibliography database file. 
+\item[acknowledgements.tex] File containing the acknowledgements. 
+\item[abs-mal.tex] File containing the Malay abstract.
+\item[abs-eng.tex] File containing the English abstract.
+\item[loa.tex (Optional)] Contains the lists of abbreviations and symbols. 
+\item[mainchaps.tex] Listing of files containing the main chapters. 
+\item[appendices.tex (Optional)] Listing of files containing the appendices. 
+\item[chap-*.tex] The main chapters, one in each file.
+\item[app-*.tex] The appendices, one in each file.
+\item[*.pdf, *.png, *.jpg] Any graphic files that need to be included. 
+\end{description}
+
+There is no need for creating separate files for the cover page, table of contents, and list of figures and tables. These will be automatically generated when \LaTeX\ processes the input files.
+
+
+
+
+\section{Class Options}
+
+\texttt{usmthesis.cls} defines the various layout and formatting as according to IPS' guidelines. Therefore, under normal circumstances, there should be no need for fiddling with the formatting: simply concentrate on writing the thesis chapters.
+
+Nevertheless, there are some (minor) class options that you can set:
+
+\subsection[Body font]{Body font (default: \texttt{times})}
+
+IPS has allowed either Times (12pt) or Arial (11pt) to be used as the thesis' body font. Available options are:
+
+\begin{itemize}
+\item \texttt{times} to use a serif or roman font (Times) as body font;
+\item \texttt{arial} to use a sans serif font (Helvetica, a look-alike for Arial) as body font.
+\end{itemize}
+
+The default is \texttt{times}.
+
+
+\subsection{URL font (default: \texttt{urltt})}
+
+URLs should be typeset with a \verb|\url| command like this, to take care of special characters and proper line-breaking of long URLs:
+
+   \lstinline|\url{http://www.cs.usm.my}|
+   
+You may select a font style for URLs, so that they stand out from the main body font selected. Available options are:
+\begin{itemize}[nosep]
+\item \texttt{urlrm} to use a serif or roman font (Times)
+\item \texttt{urlsf} to use a sans serif font (Helvetica/Arial)
+\item \texttt{urltt} to use a typewriter font (TX Typewriter)
+\end{itemize}
+The default is \texttt{urltt}.
+
+
+\subsection{Framed figures (default: \texttt{noboxfig})}
+Some people may prefer to have a frame around their figures; others don't. You may specify your preference with the following class options:
+%
+\begin{itemize}[nosep]
+\item \texttt{boxfig} to put full-width boxes around all your figures;
+\item \texttt{noboxfig} to have figures without frames.
+\end{itemize}
+%
+The default is \texttt{noboxfig}.
+
+
+\section{Using Class Options}
+
+Specify the above class options like this:
+
+\begin{lstlisting}
+\documentclass[urlsf]{usmthesis}
+\end{lstlisting}
+
+This would typeset your thesis using sans seris font (Helvetica) for URLs and no boxes around your figures (by default). You may give any combinations of these options, in any order, like so: \lstinline|\documentclass[urlsf,boxfig]{usmthesis}|.
+
+
+\section{Providing details about your thesis}
+
+Telling the world who you are, and what your research thesis is about, is a good place to start. Open up \texttt{usmthesis.tex} (your ``main'' file) and look for the line
+
+\lstinline|%% Enter particulars about your thesis HERE|
+
+Now on the lines that follow, replace the default text between the curly braces:
+
+\newcommand{\highlight}{\color{blue}\rmfamily}
+\begin{figure}[hbt!]
+\begin{lstlisting}[escapechar=|,morekeywords={titlems,submityear,submitmonth,degreetype}]
+\author{Your Name e.g. |\highlight Ace Student|}
+\title{Your Thesis Title in English e.g. |\highlight Doing Research|}
+\titlems{Your Thesis Title in Malay e.g. |\highlight Kerja Penyelidikan|} 
+\submityear{Year Submitted e.g. |\highlight 2006|}
+\submitmonth{Month Submitted e.g. |\highlight August|} 
+\degreetype{Degree Type e.g. |\highlight Doctor of Philosophy|}
+\end{lstlisting}
+\end{figure}
+
+
+\section{Acknowledgements and Abstracts}
+Open up \texttt{acknowledgements.tex}, \texttt{abs-mal.tex} and \texttt{abs-eng.tex}, and replace the default text there with your own material. The titles for your English and Malay abstracts will be inserted automatically in the Preview/PDF.
+
+
+\section{List of Acronyms and Symbols}
+\textbf{If you don't have any list of acronyms or symbols}, open \texttt{usmthesis.tex} and comment out the line that includes the loa.tex file. This is done by adding a percentage sign (\verb|%|) in front of the line, like this:
+
+\begin{lstlisting}
+    %\include{loa}
+\end{lstlisting}
+
+\textbf{If you \emph{do} need such a list}, open up \texttt{loa.tex}. It contains a \textit{List of Abbreviations} as well as a \textit{List of Symbols}. You may delete off one or the other if you don't need either of them.
+
+You can list down abbreviations and symbols that are used in your thesis following the examples there. Also, specify the longest acronym in your list in the square brackets: \lstinline|\begin{acronym}[HERE]|. This will align your list nicely.
+
+For more information, see the documentation of the \texttt{acronym} package at \url{http://texdoc.net/pkg/acronym}.
+
+
+
+\section{Main Chapters}
+
+I recommend that you have a separate file for each individual chapter. Each file should start off with the chapter title, so \texttt{chap-review.tex} might start with:
+
+\lstinline|\chapter{Literature Review}|
+
+Next, in \texttt{mainchaps.tex}, list down the \emph{file names} of your main chapter files. Notice that you may omit the \texttt{.tex} suffix when doing so.
+
+
+
+\section{Appendices}
+This goes pretty much the same way as the main chapters, but you specify the files containing your appendix material in \texttt{appendices.tex} instead.
+
+If you do not have any appendix to include, you may comment out the lines starting with \lstinline|\appendix|, right up until after \lstinline|\input{appendices}|, which are near the end of \texttt{usmthesis.tex}.
+
+
+\section{Bibliographies and Citations}
+
+You can replace \texttt{mybib.bib} with your own bibliography database \texttt{.bib} file. For more information on how to do citations inside the main text, see Chapter 3 in the sample \texttt{usmthesis.pdf} for a brief overview, including how to select an author-year or numbers only citation system. (Author-year is the default in the sample files.)
+
+
+
+\section{List of Own Publications}
+
+First, make sure that you enter details about your own publications in \texttt{mybib.bib}. Then in \texttt{usmthesis.tex}, search for the following line:
+%
+\begin{lstlisting}
+   \nociteown{lim:2005}
+\end{lstlisting}
+%
+Replace the BibTeX key between the curly braces with that of your own publication. If you have more than one publications, simply separate them with commas inside the curly braces, like this:
+%
+\begin{lstlisting}
+   \nociteown{lim:tang:2004,lim:2005}
+\end{lstlisting}
+%
+If you don't have a list of own publications, comment out both these lines like this:
+
+\begin{figure}[hbt!]
+\begin{lstlisting}
+   %\nociteown{lim:2005} 
+   ... 
+   %\bibliographyown{mybib}
+\end{lstlisting}
+\end{figure}

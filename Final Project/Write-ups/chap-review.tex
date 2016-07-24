@@ -1,0 +1,89 @@
+\chapter{Citations and Bibliography}\label{chap:review}
+
+This chapter should have been a survey on the history of \TeX{} and \LaTeX{}, and a comparison to conventional word processors in preparing academic documents.  Due to lack of time on the author's part, and also the abundance of such discussions on the web, we look at ways to prepare the bibliography and citations instead.
+
+\section{The \texttt{*.bib} File}
+First of all, bear in mind that your bibliography file (\verb|*.bib| files) is like a database.  That means you can maintain a centralised list, and reuse it for all your publications.  \LaTeX{} will only list sources that you actually cite in the text for each document, according to the bibliography and citation style you select in each document.  But you can still hack it so that your own publications are listed, even if you did not cite it.
+ 
+
+\begin{figure}[htb!]
+\begin{lstlisting}[language={}]
+@BOOK{latex:companion,
+  title = {The \LaTeX{} Companion},
+  publisher = {Addison-Wesley},
+  year = {2004},
+  author = {Frank Mittelbach and Michel Goosens and Johannes Braams and David Carlisle and Chris Rowley},
+  series = {Addison-Wesley Series on Tools and Techniques for Computer Typesetting},
+  address = {Boston, MA, USA},
+  edition = {2nd}
+}
+\end{lstlisting}
+\caption{A BibTeX Entry}\label{fig:bibtex}
+\end{figure}
+
+As an example, in \verb|mybib.bib| I created a Bib\TeX{} entry with JabRef, the source text of which is shown in Figure~\ref{fig:bibtex}.
+
+One thing to note about authors' names: Bib\TeX{} recognises ``Mittelbach'' as the last name for both \texttt{Frank Mittelbach} and \texttt{Mittelbach, Frank}.  So for a name like ``Lim Lian Tze'', you would have to specify it as either \texttt{Lian Tze Lim} or \texttt{Lim, Lian Tze} for Bib\TeX{} to recognise ``Lim'' as the last name correctly.  In addition, if the surname or family name of an author consists of multiple words, enclose it with braces to avoid surprises, like so: \texttt{Syed Muhammad Naquib \{al-Attas\}}.
+
+\section{Citations using the \texttt{natbib} package}
+The \verb|usmthesis| package imports the \verb|natbib| and \verb|apacite| package which provides flexible citation mechanisms, so see its documentation for more details.  On a MiK\TeX{} installation,
+% it should be in \url{texmf/doc/latex/natbib/natbib.dvi} or \url{natbib.pdf}, in the path where you installed MiKTeX. 
+use the command prompt to issue \lstinline|mthelp --view natbib| and \lstinline|mthelp --view apacite| to access the documentation.
+On TeXLive, simply type \verb|texdoc natbib| and \lstinline|texdoc apacite| and the documentation will be displayed automatically, if it's found on your machine.
+
+The basic citation commands are \verb|\citet| and \verb|\citep|, which stands for \emph{textual} and \emph{parenthetical} citation respectively.  They take extra arguments, too, for adding notes in the citations.  
+
+\subsection{Author-Year System}
+The default bibliography style is APA:
+
+\begin{itemize}[nosep]
+\item \verb|\citet{latex:companion}| $\to$ \citet{latex:companion}
+\item \verb|\citet[chap.~2]{latex:companion}| $\to$ \citet[chap.~2]{latex:companion}
+\item \verb|\citep{latex:companion}| $\to$ \citep{latex:companion}
+\item \verb|\citep[chap.~2]{latex:companion}| $\to$ \citep[chap.~2]{latex:companion}
+\item \verb|\citep[see also][]{latex:companion}| $\to$ \citep[see also][]{latex:companion}
+\item \verb|\citep[see also][chap.~2]{latex:companion}| $\to$ \citep[see also][chap.~2]{latex:companion}
+\item \verb|\citet{latex:companion,roberts}| $\to$ \citet{latex:companion,roberts}
+\item \verb|\citep{latex:companion,roberts}| $\to$ \citep{latex:companion,roberts}
+\end{itemize}
+
+You may also want to write only the author's name or year occassionally:
+
+\begin{itemize}[nosep]
+\item \verb|\citeauthor{latex:companion}| $\to$ \citeauthor{latex:companion}
+\item \verb|\citeyear{latex:companion}| $\to$ \citeyear{latex:companion}
+\item \verb|\citeyearpar{latex:companion}| $\to$ \citeyearpar{latex:companion}
+\end{itemize}
+
+\subsection{Numeric System}
+
+If you prefer the plain, numerical system, do the following steps first:
+\begin{enumerate}[nosep]
+  \item In \texttt{usmthesis.cls}, search for the line \verb|\RequirePackage{natbib}| and modify it to:\\
+  \verb|\RequirePackage[numbers]{natbib}|
+  \item In \texttt{usmthesis.tex}:
+  \begin{itemize}[nosep]
+    \item comment out the line starting with \verb|\citestyle{...}|
+    \item modify the \verb|biblography| styles to: \\
+      \verb|\bibliographystyle{plainnat}| \\
+      \verb|\bibliographystyleown{plainnat}|
+    \end{itemize}
+    or any other number system style that you prefer.
+\end{enumerate}
+
+You will then get the following citation outputs: 
+
+
+\begin{itemize}[nosep]
+\item \verb|\citet{latex:companion}| $\to$ Mittelbach et al. [1]
+\item \verb|\citet[chap.~2]{latex:companion}| $\to$ Mittelbach et al. [1, chap.~2]
+\item \verb|\citep{latex:companion}| $\to$ [1]
+\item \verb|\citep[chap.~2]{latex:companion}| $\to$ [1, chap.~2]
+\item \verb|\citep[see also][]{latex:companion}| $\to$ [see also 1]
+\item \verb|\citep[see also][chap.~2]{latex:companion}| $\to$ [see also 1, chap.~2]
+\item \verb|\citet{latex:companion,roberts}| $\to$ Mittelbach et al. [1], Roberts [3]
+\item \verb|\citep{latex:companion,roberts}| $\to$ [1, 3]
+\item \verb|\citeauthor{latex:companion}| $\to$ Mittelbach et al.
+\item \verb|\citeyear{latex:companion}| $\to$ 2004
+\item \verb|\citeyearpar{latex:companion}| $\to$ [2004]
+\end{itemize}

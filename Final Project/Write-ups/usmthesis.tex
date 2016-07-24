@@ -1,0 +1,187 @@
+%% If you prefer -- and have been allowed -- to use
+%% Arial, then
+%% \documentclass[arial]{usmthesis}
+%% It's not really Arial, it's a Helvetica look-alike,
+%% but if you're not a designer nor a typographer, you
+%% probably can't tell the difference (I can't either)
+\documentclass{usmthesis}
+\usepackage{xpatch}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% This is usmthesis.tex, 13 April 2016.
+% Created by Lim Lian Tze (Ph.D.)
+% liantze@gmail.com
+% http://liantze.penguinattack.org.
+%
+% This is the "main" file for the thesis,
+% formatted according to the Guide to the
+% Preparation, Submission and Examination of
+% Theses, published by IPS USM.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Example of loading other packages that you may require.
+%% I'm loading the marvosym package so that I can produce a
+%% smiley face with the command \Smiley.
+\usepackage{marvosym}
+
+%% Also, the enumitem package is great for customising
+%% list environments.
+\usepackage{enumitem}
+
+%% Listings is a nice package for typesetting code
+%% listings. Other possible packages include fancyvrb,
+%% minted, etc.
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,breaklines=true}
+
+%% For those who need to produce algorithms and pseudocode.
+%% There are a number of different packages available, but
+%% unfortunately they tend not to work well together!
+%% I'm using algorithmicx, specifically algpseucode, here.
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+%% Enter particulars about your thesis HERE
+% Your Name
+\author{Lim Lian Tze}
+% English title of your thesis
+\title{Writing Your Thesis with LaTeX with a Very, Very, Very Long Title}
+% Malay title of your thesis
+\titlems{Penulisan Tesis dengan LaTeX}
+% Year submitted
+\submityear{2015}
+% Month submitted
+\submitmonth{December}
+%% Choose only 1 degree type! :-)
+\degreetype{Doctor of Philosphy}
+% \degreetype{Master of Science}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  You can comment out the following line if you don't have a
+% "List of Own Publications"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcites{own}{List of Publications}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Options for generating hyperlinks when using pdfLaTeX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifpdf
+  \makeatletter
+  \usepackage[pdftex,plainpages=false,hypertexnames=false,bookmarksnumbered,pdfpagelabels,%
+    pdfauthor={\@author},pdftitle={\@title}]{hyperref}
+  \makeatother
+\else
+  \usepackage[dvips,plainpages=false,bookmarksnumbered,breaklinks=true]{hyperref}
+\fi
+
+\usepackage{ragged2e}
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Default bibliography style is apa (using 
+% \RequirePackage[natbibapa]{apacite} in the class file).
+%
+% If you prefer the number system though, use bibliography
+% style "plainnat" for [1][2][3] or "alpha" for [Jon94] (the label
+% will be auto-generated).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{apacite}
+\bibliographystyleown{apacite}
+%\bibliographystyle{plainnat}
+%\bibliographystyleown{plainnat}
+
+\frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Inserts the cover page (the hard cover with gold-lettering)
+% and the title page 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makecover
+% * <ranzqt@gmail.com> 2016-07-24T01:24:07.585Z:
+%
+% ^.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MAKE SURE YOU HAVE A acknowledgements.tex FILE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{acknowledgements}
+
+\begin{singlespace}
+\tableofcontents \clearpage
+\listoftables \clearpage
+\listoffigures \clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% You can comment out the following line if you don't
+% have a "List of Plates"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\listofplates \clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% You can comment out the following line if you don't
+% have a "List of Acronyms"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{loa}
+\end{singlespace}
+
+% Paragraph spacing
+\setlength\parskip{18pt}
+% Text-float spacing
+\setlength\intextsep{24pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Your Malay and English abstracts, each in one file.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{abs-mal}
+\input{abs-eng}
+
+ 
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The actual chapters of your thesis as listed in 
+% mainchaps.tex. Make sure you have the relevant
+% chapter files. 
+% E.g. if you mainchaps.tex contains the lines
+%
+%  \include{hypothesis.tex}
+%  \include{proof.tex}
+%
+% Then you MUST have the files hypothesis.tex, proof.tex
+% (containing the relevant chapters) in the same directory
+% as mainchaps.tex.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{mainchaps}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The bibliography.
+% You can create mybib.bib with JabRef, the program included
+% in the Colloquium05 CD-ROM.  Or download from
+% http://jabref.sourceforge.net/
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titlespacing*{\chapter}{0pt}{25mm}{\baselineskip}
+\bibliography{mybib}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The appendices.
+% If you don't have any, you may delete everything below,
+% until and including \input{appendices}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\titlespacing*{\chapter}{0pt}{*-4.5}{*4}
+\appendix
+\assignpagestyle{\chapter}{empty}
+\input{appendices}
+\assignpagestyle{\chapter}{plain}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The list of own publications.  If you don't have one, you may
+% comment out the next 4 lines.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nociteown{lim:2007,lim:latextypesetting}
+\begin{singlespace}
+\bibliographyown{mybib}
+\end{singlespace}
+
+\end{document}

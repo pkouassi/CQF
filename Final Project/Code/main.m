@@ -97,7 +97,7 @@ title('Volatility Function from Calibrated LMM')
 % simulation
 nPeriods = 10;
 DeltaTime = 1;
-nTrials = 1000;
+nTrials = 20;
 
 Tenor = (1:10)';
 
@@ -161,5 +161,5 @@ swaption_price_n25 = ...
     bump_curve_pricer(Settle,swap_tenor,ExerciseDates,swap_rates,-0.25,swaption_black_vol, .025);
 swaption_price_n50 = ...
     bump_curve_pricer(Settle,swap_tenor,ExerciseDates,swap_rates,-0.5,swaption_black_vol, .025);
-swaption_price_n100 = ...
-    bump_curve_pricer(Settle,swap_tenor,ExerciseDates,swap_rates,-1,swaption_black_vol, .025);
+% swaption_price_n100 = ...
+%     bump_curve_pricer(Settle,swap_tenor,ExerciseDates,swap_rates,-1,swaption_black_vol, .025);

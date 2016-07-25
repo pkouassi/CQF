@@ -1,21 +1,21 @@
 %% usmthesis.cls 2016/04/13 version V1.66
-%% 
+%%
 %% NOTE: This text file uses UNIX line feed conventions. When (human)
 %% reading this file on other platforms, you may have to use a text
 %% editor that can handle lines terminated by the UNIX line feed
 %% character (0x0A).
-%% 
-%% 
+%%
+%%
 %% This is the unofficial USM thesis LaTeX class for postgraduate research
 %% students of Universiti Sains Malaysia, Penang, Malaysia, formatted
 %% according to the Guide to the Preparation, Submission and Examination
 %% of Theses, published by IPS USM.  It supercedes usmthesis.sty: much of
 %% the code is essentially the same, although usmthesis is now a class
 %% extending from the book class instead of a style.  usmthesis also provides
-%% some class options for font choice for body text and url, as well as 
+%% some class options for font choice for body text and url, as well as
 %% boxed (or not) figures.
-%% 
-%% 
+%%
+%%
 %% The latest version and documentation of usmthesis can be obtained at
 %% http://liantze.penguinattack.org/latextypesetting.html#usmthesis.
 %% contact liantze AT gmail DOT com if you have any questions or
@@ -38,7 +38,7 @@
 % v1.64 Mar 20 2016
 %     - First paragraphs after each sectional heading is
 %       now indented
-      
+
 % v1.63 Mar 3 2016
 %     - Moved List of Publications to after Appendices
 %     - References heading has 5cm top margin
@@ -49,13 +49,13 @@
 %
 % v1.61 Sep 22 2015
 %     - Abstract titles are now 12pt (irrespective of the font being used)
-%     - Default bibliography style is now APA 
+%     - Default bibliography style is now APA
 %       (with \RequirePackage[natbibapa]{apacite})
 %
 % v1.6 Aug 21 2015
 %     - (Based on feedback from Puan Nurul Hasyda of IPS)
 %     - Chapters are now in bold in the TOC.
-%     - Eliminated vertical spaces at the top and bottom of cover and 
+%     - Eliminated vertical spaces at the top and bottom of cover and
 %       title page.
 %     - Apparently if using Times, must be in 12pt. So no more 11pt,
 %       12pt choices. But sans serif (Arial) is allowed again, but must
@@ -82,7 +82,7 @@
 %
 %  v1.2 Nov 15 2007
 %     - New thesis format in force as of 16 November 2007!
-%     - There is now no times, helvet or cm options. Body font is now 
+%     - There is now no times, helvet or cm options. Body font is now
 %       Times Roman for serif type, Helvetica for sans serif type, and
 %       TX Typewriter for typewriter font.
 %     - Bottom page margin increased to 4.0cm.
@@ -97,7 +97,7 @@
 %       * dotted leader between titles and page number
 %       * larger separation between (sub)section numbers and titles to resemble
 %         the sample in the guidelines more closely
-%     - Fixed bug in definition of \chapter to honour short title in 
+%     - Fixed bug in definition of \chapter to honour short title in
 %       \chapter[short title]{full title}
 %
 %  v1.1 May 20 2007
@@ -121,9 +121,9 @@
 %     - first stab at usmthesis as a package (usmthesis.sty).
 %
 %
-% Available class options 
-% (e.g., \documentclass[urlsf,boxfig,txtt]{usmthesis} 
-% 
+% Available class options
+% (e.g., \documentclass[urlsf,boxfig,txtt]{usmthesis}
+%
 %             *** choose only one from each category ***
 %
 % urlrm, urlsf, urltt
@@ -180,7 +180,7 @@
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[T1]{fontenc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Sets up the fonts: Load the Times, Helvetica and 
+%% Sets up the fonts: Load the Times, Helvetica and
 %% Courier (or TX Typewriter) fonts for serif, sans serif
 %% and typewriter respectively.
 %% (Helvetica is loaded in lieu of Arial, which is
@@ -211,8 +211,8 @@
 %\RequirePackage{subfigure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% When "bahasa" is specified last, all the sectioning 
-% commands become Malay e.g. "Bab", 
+% When "bahasa" is specified last, all the sectioning
+% commands become Malay e.g. "Bab",
 % "Dafter Isi" etc.  "english" is the main language
 % here. Babel now supports bahasam.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -234,7 +234,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% These packages will help you in typesetting 
+% These packages will help you in typesetting
 % mathematical symbols, formulae and equations.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{amsmath,amssymb,textcomp}
@@ -365,17 +365,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This package will help you in typesetting urls!
-% If you just type a URL like 
+% If you just type a URL like
 %    http://cs.usm.my/~abc/cgi/index.php?q=bye%20%bye
 % something is going to get VERY wrong sooner or later.
-% Typeset your URL like this instead: 
+% Typeset your URL like this instead:
 % \url{http://cs.usm.my/~abc/cgi/index.php?q=bye%20%bye}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{url}
 \if@urlrm\urlstyle{rm}\else\if@urltt\urlstyle{tt}\else\urlstyle{sf}\fi\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% For typesetting the list of abbreviations and maybe help 
+% For typesetting the list of abbreviations and maybe help
 % control their expansion in the text.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{acronym}
@@ -425,7 +425,7 @@
 \renewcommand\bibfont{\singlespace}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Multiple bibliographics, used to hack up a list of 
+% Multiple bibliographics, used to hack up a list of
 % own publications
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[resetlabels]{multibib}
@@ -489,9 +489,9 @@
 
 \vspace*{\stretch{1}}
 
-UNIVERSITI SAINS MALAYSIA\par
+Certificate in Quantitative Finance\par
 
-\@submityear 
+\@submityear
 %
 %\vspace*{20mm}
 }
@@ -515,9 +515,8 @@ UNIVERSITI SAINS MALAYSIA\par
 \vspace*{\stretch{2}}
 
 \begin{singlespace}
-\fontsize{16pt}{18pt}\selectfont Thesis submitted in fulfilment of the requirements\\
-for the degree of\\
-\fontsize{16pt}{18pt}\selectfont \@degreetype\par
+\fontsize{16pt}{18pt}\selectfont Final report submitted in fulfilment of the requirements\\
+for \fontsize{16pt}{18pt}\selectfont \@degreetype\par
 \end{singlespace}
 
 \vspace*{\stretch{2}}

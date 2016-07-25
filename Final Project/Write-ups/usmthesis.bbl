@@ -1,0 +1,105 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Brigo%
+\ \BBA {} Mercurio%
+}{%
+Brigo%
+\ \BBA {} Mercurio%
+}{%
+{\protect \APACyear {2006}}%
+}]{%
+bm06}
+\APACinsertmetastar {%
+bm06}%
+\begin{APACrefauthors}%
+Brigo, D.%
+\BCBT {}\ \BBA {} Mercurio, F.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{2006}.
+\newblock
+\APACrefbtitle {Interest Rate Models - Theory and Practice. 2nd Ed.} {Interest
+  rate models - theory and practice. 2nd ed.}
+\newblock
+\APACaddressPublisher{}{Springer Finance}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Cox%
+, Ingersoll%
+\BCBL {}\ \BBA {} Ross%
+}{%
+Cox%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {1985}}%
+}]{%
+cir85}
+\APACinsertmetastar {%
+cir85}%
+\begin{APACrefauthors}%
+Cox, J.%
+, Ingersoll, J.%
+\BCBL {}\ \BBA {} Ross, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1985}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A Theory of the Term Structure of Interest Rates} {A
+  theory of the term structure of interest rates}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Econometrica}{53}{}{385--407}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Hull%
+\ \BBA {} White%
+}{%
+Hull%
+\ \BBA {} White%
+}{%
+{\protect \APACyear {1990}}%
+}]{%
+jh90}
+\APACinsertmetastar {%
+jh90}%
+\begin{APACrefauthors}%
+Hull, J.%
+\BCBT {}\ \BBA {} White, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1990}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Pricing interest-rate derivative securities} {Pricing
+  interest-rate derivative securities}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{The Review of Financial Studies}{3}{4}{573--592}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Vasicek%
+}{%
+Vasicek%
+}{%
+{\protect \APACyear {1977}}%
+}]{%
+vo97}
+\APACinsertmetastar {%
+vo97}%
+\begin{APACrefauthors}%
+Vasicek, O.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1977}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {An equilibrium characterization of the term structure}
+  {An equilibrium characterization of the term structure}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Financial Economics}{5}{}{177--188}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}

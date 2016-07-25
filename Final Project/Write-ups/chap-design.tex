@@ -6,7 +6,7 @@
 
 \section{Inserting Figures}\label{sec:figure}
 
-You can draw diagrams with special \LaTeX\ commands, but this may take some extra time to learn.  I've had some forays into the \texttt{pgf} and \texttt{tikz} packages and must say I quite like the results; but as I said, they take time to learn. If you want a faster solution, you can draw your diagrams using other applications, and saving them as graphic files (EPS, PNG, JPG, PDF).  
+You can draw diagrams with special \LaTeX\ commands, but this may take some extra time to learn.  I've had some forays into the \texttt{pgf} and \texttt{tikz} packages and must say I quite like the results; but as I said, they take time to learn. If you want a faster solution, you can draw your diagrams using other applications, and saving them as graphic files (EPS, PNG, JPG, PDF).
 
 \LaTeX{} requires EPS (encapsulated postscript) graphic files when generating DVI output, and PNG, JPG or PDF when generating PDF output.
 
@@ -19,7 +19,7 @@ Here's how to insert a picture with the filename \verb|pythag.eps| or \verb|pyth
 \begin{figure}[hbt!]
 \begin{lstlisting}
 \begin{figure}[hbt!]\centering
-\includegraphics[width=50mm]{pythag}
+\includegraphics[width=50mm]{pythag.png}
 \caption{Pythagoras' Theorem}\label{fig:pythagoras}
 \end{figure}
 \end{lstlisting}
@@ -29,7 +29,7 @@ Here's how to insert a picture with the filename \verb|pythag.eps| or \verb|pyth
 The result would be:
 
 \begin{figure}[hbt!]\centering
-\includegraphics[width=50mm]{pythag}
+\includegraphics[width=50mm]{pythag.png}
 \caption{Pythagoras' Theroem} \label{fig:pythagoras}
 \end{figure}
 
@@ -62,7 +62,7 @@ Here's an example on how to do subfigures (and similarly subtables):
   \begin{minipage}{.49\textwidth}
   \subfloat[Second caption]{\includegraphics[width=0.8\textwidth]{USMScience}}\label{fig:sub2}
   \end{minipage}
-  
+
   \caption{This is the main caption of the figure.}
   \label{fig:main}
 \end{figure}
@@ -79,7 +79,7 @@ Here's an example on how to do subfigures (and similarly subtables):
   \begin{minipage}{.49\textwidth}
   \subfloat[Second caption]{\includegraphics[width=0.8\textwidth]{USMScience}}\label{fig:sub2}
   \end{minipage}
-  
+
   \caption{This is the main caption of the figure.}
   \label{fig:main}
 \end{figure}
@@ -118,13 +118,13 @@ If using \textrm{LaTable}, when you're done designing the table, copy the whole 
 \begin{table}[hbt!]\centering
 \begin{tabular}{| l | c || r |}
 \hline
-\textbf{Name} & \textbf{Category} & \textbf{Quantity} \\ 
+\textbf{Name} & \textbf{Category} & \textbf{Quantity} \\
 \hline\hline
-Apple & Fruit & 10 \\ 
+Apple & Fruit & 10 \\
 \hline
-Cucumber & Vegetable & 25 \\ 
+Cucumber & Vegetable & 25 \\
 \hline
-Daisy & Flower & 5 \\ 
+Daisy & Flower & 5 \\
 \hline
 \end{tabular}
 \caption{Sample Table Only} \label{table:sample}
@@ -136,13 +136,13 @@ Daisy & Flower & 5 \\
 \begin{table}[hbt!]\centering
 \begin{tabular}{| l | c || r |}
 \hline
-\textbf{Name} & \textbf{Category} & \textbf{Quantity} \\ 
+\textbf{Name} & \textbf{Category} & \textbf{Quantity} \\
 \hline\hline
-Apple & Fruit & 10 \\ 
+Apple & Fruit & 10 \\
 \hline
-Cucumber & Vegetable & 25 \\ 
+Cucumber & Vegetable & 25 \\
 \hline
-Daisy & Flower & 5 \\ 
+Daisy & Flower & 5 \\
 \hline
 \end{tabular}
 \caption{Sample Table Only} \label{table:sample}
@@ -244,9 +244,9 @@ z^2 = x^2 + y^2
                 \frac{ (-1) ^ {n+1} }{ F_n F_{n+1} }
 \end{equation}
 
-Equation~\ref{eq:pythagoras} is the Pythagoras Theorem. 
-\eqref{eq:golden:ratio} gives the golden ratio $\phi$, and 
-\eqref{eq:golden:ratio:fibonacci} relates it to the Fibonacci 
+Equation~\ref{eq:pythagoras} is the Pythagoras Theorem.
+\eqref{eq:golden:ratio} gives the golden ratio $\phi$, and
+\eqref{eq:golden:ratio:fibonacci} relates it to the Fibonacci
 series.
 \end{lstlisting}
 \caption{Typesetting Mathematical Equations}\label{fig:lst:equation}
@@ -265,7 +265,7 @@ z^2 = x^2 + y^2
 
 Equation~\ref{eq:pythagoras} is the Pythagoras Theorem. \eqref{eq:golden:ratio} gives the golden ratio $\phi$, and \eqref{eq:golden:ratio:fibonacci} relates it to the Fibonacci series.
 
-The \LaTeX\ code to generate the above mathematics materials are shown in Figure~\ref{fig:lst:equation}.  As you can see, references to equations can be achieved with either \verb|\ref| or \verb|\eqref|. 
+The \LaTeX\ code to generate the above mathematics materials are shown in Figure~\ref{fig:lst:equation}.  As you can see, references to equations can be achieved with either \verb|\ref| or \verb|\eqref|.
 
 A disclaimer: if you think the mathematic equations don't look as great as all those \LaTeX\ advocates make them out to be, that's because IPS requires Times to be used and the current offerings of free \LaTeX\ math fonts for Times don't look great. It would've been a different picture if we used Computer Modern.
 
@@ -423,4 +423,4 @@ int main() {
 }
 \end{lstlisting}
 \caption{A C program listing without syntax highlighting}
-\end{figure}
+\end{figure} 

@@ -6,6 +6,7 @@
 %% probably can't tell the difference (I can't either)
 \documentclass{usmthesis}
 \usepackage{xpatch}
+%\usepackage{cite}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is usmthesis.tex, 13 April 2016.
@@ -43,17 +44,17 @@
 
 %% Enter particulars about your thesis HERE
 % Your Name
-\author{Lim Lian Tze}
+\author{Ran Zhao}
 % English title of your thesis
-\title{Writing Your Thesis with LaTeX with a Very, Very, Very Long Title}
+\title{Interest Rate Modeling with LIBOR Market Model and CVA Calculation}
 % Malay title of your thesis
-\titlems{Penulisan Tesis dengan LaTeX}
+%\titlems{Penulisan Tesis dengan LaTeX}
 % Year submitted
-\submityear{2015}
+\submityear{2016}
 % Month submitted
-\submitmonth{December}
+\submitmonth{July}
 %% Choose only 1 degree type! :-)
-\degreetype{Doctor of Philosphy}
+\degreetype{Certificate in Quantitative Finance}
 % \degreetype{Master of Science}
 
 
@@ -61,7 +62,7 @@
 %  You can comment out the following line if you don't have a
 % "List of Own Publications"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcites{own}{List of Publications}
+%\newcites{own}{List of Publications}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Options for generating hyperlinks when using pdfLaTeX
@@ -79,7 +80,7 @@
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Default bibliography style is apa (using 
+% Default bibliography style is apa (using
 % \RequirePackage[natbibapa]{apacite} in the class file).
 %
 % If you prefer the number system though, use bibliography
@@ -87,7 +88,7 @@
 % will be auto-generated).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{apacite}
-\bibliographystyleown{apacite}
+%\bibliographystyleown{apacite}
 %\bibliographystyle{plainnat}
 %\bibliographystyleown{plainnat}
 
@@ -95,7 +96,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Inserts the cover page (the hard cover with gold-lettering)
-% and the title page 
+% and the title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makecover
 % * <ranzqt@gmail.com> 2016-07-24T01:24:07.585Z:
@@ -106,6 +107,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MAKE SURE YOU HAVE A acknowledgements.tex FILE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{originality-declaration}
 \include{acknowledgements}
 
 \begin{singlespace}
@@ -122,7 +124,7 @@
 % You can comment out the following line if you don't
 % have a "List of Acronyms"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{loa}
+%\include{loa}
 \end{singlespace}
 
 % Paragraph spacing
@@ -133,16 +135,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Your Malay and English abstracts, each in one file.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\input{abs-mal}
+%\input{abs-mal}
 \input{abs-eng}
 
- 
+
 \mainmatter
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% The actual chapters of your thesis as listed in 
+% The actual chapters of your thesis as listed in
 % mainchaps.tex. Make sure you have the relevant
-% chapter files. 
+% chapter files.
 % E.g. if you mainchaps.tex contains the lines
 %
 %  \include{hypothesis.tex}
@@ -160,8 +162,8 @@
 % in the Colloquium05 CD-ROM.  Or download from
 % http://jabref.sourceforge.net/
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\titlespacing*{\chapter}{0pt}{25mm}{\baselineskip}
-\bibliography{mybib}
+%\titlespacing*{\chapter}{0pt}{25mm}{\baselineskip}
+%\bibliography{mybib}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -179,9 +181,12 @@
 % The list of own publications.  If you don't have one, you may
 % comment out the next 4 lines.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nociteown{lim:2007,lim:latextypesetting}
-\begin{singlespace}
-\bibliographyown{mybib}
-\end{singlespace}
+%\nociteown{lim:2007,lim:latextypesetting}
+%\begin{singlespace}
+%\bibliographyown{mybib}
+%\end{singlespace}
+
+%\bibliographystyle{}
+\bibliography{cqf}
 
 \end{document}

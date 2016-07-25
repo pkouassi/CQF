@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=latex 2016.3.20)  24 JUL 2016 18:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=latex 2016.3.20)  24 JUL 2016 21:02
 entering extended mode
 **./usmthesis.tex
 (usmthesis.tex
@@ -1598,11 +1598,13 @@ File: vol_func.eps Graphic file (type eps)
  <vol_func.eps>
 File: sim_zero_forward.eps Graphic file (type eps)
  <sim_zero_forward.eps>
-Overfull \hbox (143.31741pt too wide) in paragraph at lines 81--82
+Overfull \hbox (143.31741pt too wide) in paragraph at lines 82--83
 [][][] 
  []
 
-[4] [5]) [6])
+[4] [5]
+File: swaption_prices.eps Graphic file (type eps)
+ <swaption_prices.eps>) [6])
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 175.
  (appendices.tex [7
@@ -1627,15 +1629,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 192.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 192.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 192.
 Package rerunfilecheck Info: File `usmthesis.out' has not changed.
-(rerunfilecheck)             Checksum: 23D2DA2F56C98D4BB8582AC7575CCE84;1085.
+(rerunfilecheck)             Checksum: 2C7F5FD3ACE8FC5BEC17FB3A8BDF37D4;1103.
  ) 
 Here is how much of TeX's memory you used:
- 20929 strings out of 493635
- 343678 string characters out of 3141329
+ 20933 strings out of 493635
+ 343760 string characters out of 3141329
  429197 words of memory out of 3000000
- 23983 multiletter control sequences out of 15000+200000
+ 23986 multiletter control sequences out of 15000+200000
  37862 words of font info for 54 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
  51i,7n,44p,10387b,449s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on usmthesis.dvi (18 pages, 48684 bytes).
+Output written on usmthesis.dvi (18 pages, 50760 bytes).

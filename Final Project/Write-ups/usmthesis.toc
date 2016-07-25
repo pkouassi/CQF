@@ -25,6 +25,6 @@
 \contentsline {part}{\bfseries \uppercase {Appendices}}{7}{section*.8}
 \renewcommand {\chaptername }{Appendix}
 \setlength {\cftchapnumwidth }{92.3202pt}
-\contentsline {chapter}{\numberline {A}\uppercase {Data Used}}{8}{appendix.A}
+\contentsline {chapter}{\numberline {A}\uppercase {Black's Formula for Caplets}}{8}{appendix.A}
 \cftpagenumberson {chap}
 \contentsline {chapter}{References}{9}{appendix*.9}

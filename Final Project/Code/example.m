@@ -78,3 +78,31 @@ x0 = [.2 .05 1 .05 .2];
 lb = [0 0 .5 0 .01];
 ub = [1 1 2 .3 1];
 LMMparams = lsqnonlin(objfun,x0,lb,ub,options)
+
+a = LMMparams(1);
+b = LMMparams(2);
+c = LMMparams(3);
+d = LMMparams(4);
+
+Beta = LMMparams(5);
+
+VolFunc = repmat({@(t) ones(size(t)).*(a*t + b).*exp(-c*t) + d},nRates-1,1);
+
+CorrelationMatrix = CorrFunc(meshgrid(1:nRates-1)',meshgrid(1:nRates-1),Beta);
+LMM = LiborMarketModel(irdc,VolFunc,CorrelationMatrix,'Period',1);
+
+[LMMZeroRates, ForwardRates] = LMM.simTermStructs(nPeriods,'nTrials',nTrials);
+
+trialIdx = 1;
+figure
+tmpPlotData = LMMZeroRates(:,:,trialIdx);
+tmpPlotData(tmpPlotData == 0) = NaN;
+surf(Tenor,SimDates,tmpPlotData)
+title(['Evolution of the Zero Curve for Trial:' num2str(trialIdx) ' of LIBOR Market Model'])
+xlabel('Tenor (Years)')
+
+DF = exp(bsxfun(@times,-LMMZeroRates,repmat(Tenor',[nPeriods+1 1])));
+SwapRate = (1 - DF(exRow,endCol,:))./sum(bsxfun(@times,1,DF(exRow,1:endCol,:)));
+PayoffValue = 100*max(SwapRate-InstrumentStrike,0).*sum(bsxfun(@times,1,DF(exRow,1:endCol,:)));
+RealizedDF = prod(exp(bsxfun(@times,-LMMZeroRates(2:exRow,1,:),SimTimes(1:exRow-1))),1);
+LMM_SwaptionPrice = mean(RealizedDF.*PayoffValue)

@@ -109,21 +109,21 @@ The calibration process of swaptions prices to LMM parameters is to keep adjusti
 The market date I chose for LMM calibration is 2016-06-30. The U.S. swaption normal volatility date source is Bloomberg. The normal volatilities are from vanilla European swaptions with specific option tenors and swap tenors. Figure~\ref{fig::swaption_normal_vol} plots the market observable swaption normal volatilities with respect to various option terms and swap terms. Note that the volatilities of swaption used for calibration are all at-the-money level volatilities.
 
 \begin{center}
-  \begin{figure}
-  \centering
-      \includegraphics[scale=0.6]{swaption_normal_vol.eps}
-      \caption{The normal volatilities of swaptions as of 2016-06-30. Data source is Bloomberg.}\label{fig::swaption_normal_vol}
-  \end{figure}
+\begin{figure}
+\centering
+  \includegraphics[scale=0.6]{swaption_normal_vol.eps}
+  \caption{The normal volatilities of swaptions as of 2016-06-30. Data source is Bloomberg.}\label{fig::swaption_normal_vol}
+\end{figure}
 \end{center}
 
 The U.S. LIBOR OIS curve for the same market date is used to discount the payoff of the swaption. The selected discounting method is dual-curve discounting, where the discount factor comes from the OIS curve. Figure~\ref{fig::curves} plots the zero and forward curves as of market date 2016-06-30.
 
 \begin{center}
-  \begin{figure}
-  \centering
-      \includegraphics[scale=0.6]{zero_forward_curves.eps}
-      \caption{The zero curve (left) and forward curves (right) as of 2016-06-30.}\label{fig::curves}
-  \end{figure}
+\begin{figure}[htb!]
+\centering
+  \includegraphics[scale=0.6]{zero_forward_curves.eps}
+  \caption{The zero curve (left) and forward curves (right) as of 2016-06-30.}\label{fig::curves}
+\end{figure}
 \end{center}
 
 The LMM calibration has objective function that calculates the difference between LMM generated Black volatilities and the market observed Black volatilities. The market observable Black volatilities is backed out from swaption normal volatilities using the Black model. The LMM projected Black volatilities are calculated from tuned LMM parameters and Black's formula for swaption pricing. A set of market consistent parameters, especially the correlation matrix from the LMM, is optimized using least square technique. A least square type of error is minimized between the market volatility surface and LMM projected surface. The calibration process implementation is detailed in the code submitted among with this paper.
@@ -141,7 +141,8 @@ The calibration is achieved via optimization Rebonato method. Figure~\ref{fig::v
 
 \begin{center}
   \begin{figure}
-      \includegraphics[scale=0.6]{vol_func.eps}
+    \centering
+      \includegraphics[scale=0.5]{vol_func.eps}
       \caption{The term structure of volatility from calibrated LMM.}\label{fig::vol_term}
   \end{figure}
 \end{center}
@@ -150,7 +151,8 @@ Another benefit of calibrating market consistent model parameters is to populate
 
 \begin{center}
   \begin{figure}
-      \includegraphics[scale=0.6]{sim_zero_forward.eps}
+  \centering
+      \includegraphics[scale=0.4]{sim_zero_forward.eps}
       \caption{Simulated zero curves and forward curves in one scenario from calibrated LMM.}\label{fig::sim_zero_forward}
   \end{figure}
 \end{center}
@@ -160,14 +162,31 @@ The pricing vanilla European swaption is done in the calibration process, where 
 
 The market risks of this vanilla swaption are mainly {\emph Rho} and {\emph Convexity}. {\emph Rho} represents the first-order market exposure of swaption with respect to the interest rate moves. {\emph Convexity}, instead, represents the second-order market exposure of swaption with respect to the interest rate moves. The Greeks {\emph Rho} and {\emph Convexity} can be calculated from bumping the forward rate curves parallel, re-calibration on the LMM parameters, and repricing the swaption. The {\emph Rho} calculation method is
 $$
-Rho = \frac{\mathrm{Price when IR curve up $\Delta$ bps} - \mathrm{Price when IR curve down $\Delta$ bps}}{2\Delta}
+Rho = \frac{\textrm{Price when IR curve up $\Delta$ bps} - \textrm{Price when IR curve down $\Delta$ bps}}{2\Delta}
+$$
+where the unit the calculation is per \$ price change given 1 basis point interest rate input move. Similarly, the {\emph Rho} calculation method is
+$$
+Convexity = \frac{\textrm{Price IR up $\Delta$ bps} - 2\times\textrm{Price no bump} - \textrm{Price IR down $\Delta$ bps}}{\Delta^2}
 $$
 
-Figure~\ref{fig::swaption_prices} plots the price sensitivity of swaption with respect to the interest rate curve (OIS curve) bumpings.
+The {\emph Rho} of the swaption based on 25 basis points interest rate shocks (up and down) is 0.0331. The {\emph Convexity} of the swaption based on 25 basis points interest rate shocks (up and down) is 0.0006516. To see clearer the price sensitivity of swaption to different sizes of market interest rate shock, the {\emph Rho} profile is calculated and shown in Table~\ref{table::rho_profile}.
+
+\begin{center}
+\scalebox{0.7}{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|} 
+  \hline
+  Interest Rate Parallel Shock (bps) & -50 & -25 & -10 & 0 & 10 & 25 & 50 & 100 & 300 \\ \hline
+  Swaption Price & 1.1925 & 1.1993 & 1.4819 & 1.8236 & 1.7226 & 2.8551 & 3.2337 & 4.4265 & 10.2215 \\
+  \hline
+\end{tabular}}\label{table::rho_profile}
+\end{center}
+
+Figure~\ref{fig::swaption_prices} plots the price sensitivity of swaption with respect to the interest rate curve (OIS curve) bumpings. The bumpy behavior at +10 bps shock may come from the calibration noise. 
 
 \begin{center}
   \begin{figure}
+  \centering
       \includegraphics[scale=0.6]{swaption_prices.eps}
       \caption{The swaption prices with respect to the OIS curve bumpings.}\label{fig::swaption_prices}
   \end{figure}
-\end{center}
+\end{center} 

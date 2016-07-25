@@ -13,7 +13,7 @@ swap_tenor = swap_rate_raw(:,1);
 swap_rates = swap_rate_raw(:,2);
 
 % Read swaps from spreadsheet
-swapFile = 'cva-swap-portfolio3.xls';
+swapFile = 'cva-swap-portfolio.xls';
 swapData = readtable(strcat(data_file_path,swapFile),'Sheet','Swap Portfolio');
 %swapData = readtable(swapFile,'Sheet','Swap Portfolio');
 
@@ -52,13 +52,13 @@ numSwaps = numel(swaps.Counterparty);
 
 % Settle = datenum('30-June-2016');
 % 
-% Tenor = 12*swap_tenor';
-% ZeroRates = swap_rates;
+Tenor = 12*swap_tenor;
+ZeroRates = swap_rates;
 
 Settle = datenum('30-June-2016');
 
-Tenor = [3 6 12 5*12 7*12 10*12 20*12 30*12]';
-ZeroRates = [0.033 0.034 0.035 0.040 0.042 0.044 0.048 0.0475]';
+% Tenor = [3 6 12 5*12 7*12 10*12 20*12 30*12]';
+% ZeroRates = [0.033 0.034 0.035 0.040 0.042 0.044 0.048 0.0475]';
 
 ZeroDates = datemnth(Settle,Tenor);
 Compounding = 2;
@@ -155,10 +155,11 @@ title(sprintf('Swap prices along scenario %d', i));
 % Visualize Simulated Portfolio Values
 % View portfolio value over time
 figure;
-totalPortValues = squeeze(sum(values, 2));
+totalPortValues = squeeze(sum(values(:,end,:), 2));
 plot(simulationDates,totalPortValues);
 title('Total MTM Portfolio Value for All Scenarios');
 datetick('x','mmmyy')
+legend
 ylabel('Portfolio Value ($)')
 xlabel('Simulation Dates')
 
@@ -198,7 +199,7 @@ title('Portfolio Exposure Profiles');
 ylabel('Exposure ($)')
 xlabel('Simulation Dates')
 
-cpIdx = find(expcpty == 5);
+cpIdx = find(expcpty == 6);
 figure;
 plot(simulationDates,cpProfiles(cpIdx).PFE, ...
     simulationDates,cpProfiles(cpIdx).MPFE * ones(numDates,1), ...
@@ -243,6 +244,7 @@ datetick('x','mmmyy','keeplimits')
 title('Discounted Expected Exposure for Each Counterparty');
 ylabel('Discounted Exposure ($)')
 xlabel('Simulation Dates')
+legend('Counterparty 1', 'Counterparty 2', 'Counterparty 3', 'Counterparty 4','Counterparty 5','Counterparty 6')
 
 % Calibrating Probability of Default Curve for Each Counterparty
 % Import CDS market information for each counterparty

@@ -80,6 +80,56 @@ Hull, J.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Rebonato%
+}{%
+Rebonato%
+}{%
+{\protect \APACyear {1999}}%
+}]{%
+re99}
+\APACinsertmetastar {%
+re99}%
+\begin{APACrefauthors}%
+Rebonato, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1999}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {On the simultaneous calibration of multi-factor
+  log-normal interest-rate models to Black volatilities and to the correlation
+  matrix} {On the simultaneous calibration of multi-factor log-normal
+  interest-rate models to black volatilities and to the correlation
+  matrix}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Computational Finance}{2}{4}{5--27}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Rebonato%
+}{%
+Rebonato%
+}{%
+{\protect \APACyear {2002}}%
+}]{%
+re02}
+\APACinsertmetastar {%
+re02}%
+\begin{APACrefauthors}%
+Rebonato, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{2002}.
+\newblock
+\APACrefbtitle {Modern Pricing of Interest-rate Derivatives. The LIBOR Market
+  Model and Beyond} {Modern pricing of interest-rate derivatives. the libor
+  market model and beyond}.
+\newblock
+\APACaddressPublisher{}{Princeton University Press, Princeton and Oxford}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Vasicek%
 }{%
 Vasicek%

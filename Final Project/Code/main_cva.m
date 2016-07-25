@@ -1,9 +1,21 @@
 % main function for the final projection
 
 %% Part II Credit Value Adjustment
+% Create RateSpec from the Interest Rate Curve
+% define workplace
+crt_path = which('main_cva.m');
+parrent_path = strrep(crt_path, 'Code\main_cva.m', '');
+data_file_path = strcat(parrent_path, 'Data\');
+
+% read data from directory
+swap_rate_raw = xlsread(strcat(data_file_path, 'us_swap_rate.xlsx'));
+swap_tenor = swap_rate_raw(:,1);
+swap_rates = swap_rate_raw(:,2);
+
 % Read swaps from spreadsheet
-swapFile = 'cva-swap-portfolio.xls';
-swapData = readtable(swapFile,'Sheet','Swap Portfolio');
+swapFile = 'cva-swap-portfolio3.xls';
+swapData = readtable(strcat(data_file_path,swapFile),'Sheet','Swap Portfolio');
+%swapData = readtable(swapFile,'Sheet','Swap Portfolio');
 
 swaps = struct( ...
     'Counterparty',[], ...
@@ -28,7 +40,22 @@ swaps.LegReset = ones(size(swaps.LegType));
 numSwaps = numel(swaps.Counterparty);
 
 % Create RateSpec from the Interest Rate Curve
-Settle = datenum('14-Dec-2007');
+% define workplace
+% crt_path = which('main_cva.m');
+% parrent_path = strrep(crt_path, 'Code\main_cva.m', '');
+% data_file_path = strcat(parrent_path, 'Data\');
+% 
+% % read data from directory
+% swap_rate_raw = xlsread(strcat(data_file_path, 'us_swap_rate.xlsx'));
+% swap_tenor = swap_rate_raw(:,1);
+% swap_rates = swap_rate_raw(:,2);
+
+% Settle = datenum('30-June-2016');
+% 
+% Tenor = 12*swap_tenor';
+% ZeroRates = swap_rates;
+
+Settle = datenum('30-June-2016');
 
 Tenor = [3 6 12 5*12 7*12 10*12 20*12 30*12]';
 ZeroRates = [0.033 0.034 0.035 0.040 0.042 0.044 0.048 0.0475]';
@@ -219,7 +246,7 @@ xlabel('Simulation Dates')
 
 % Calibrating Probability of Default Curve for Each Counterparty
 % Import CDS market information for each counterparty
-CDS = readtable(swapFile,'Sheet','CDS Spreads');
+CDS = readtable(strcat(data_file_path, swapFile),'Sheet','CDS Spreads');
 disp(CDS);
 CDSDates = datenum(CDS.Date);
 CDSSpreads = table2array(CDS(:,2:end));

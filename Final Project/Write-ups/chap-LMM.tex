@@ -37,10 +37,10 @@ i<k,& t\leq T_i: df_k(t) = \sigma_k(t)f_k(t)\sum_{j=i+1}^{k}\frac{\rho_{k,j}\tau
 i=k,& t\leq T_{k-1}: df_k(t) = \sigma_k(t) f_k(t) dW_k(t) \\
 i>k,& t\leq T_{k-1}: df_k(t) = -\sigma_k(t)f_k(t)\sum_{j=i+1}^{k}\frac{\rho_{k,j}\tau_j\sigma_j(t)f_j(t)}{1+\tau_j f_j(t)}dt + \sigma_k(t) f_k(t) dW_k(t)
 \end{eqnarray*}
-where $W=W^i$ is a Brownian motion under $Q^i$. 
+where $W=W^i$ is a Brownian motion under $Q^i$.
 
 \subsection{Risk Neutral Dynamics in LMM}
-According to~\cite{bm06}, the risk-neutral dynamics of forward LIBOR rates in the LMM is 
+According to~\cite{bm06}, the risk-neutral dynamics of forward LIBOR rates in the LMM is
 $$
 d f_i(t) = \tilde{\mu}_i(t) f_i(t)dt + \sigma_i(t)f_i(t) d \tilde{W}_i(t)
 $$
@@ -49,23 +49,95 @@ where
 \tilde{\mu}_i(t) &=& \sum_{j=\beta(t)}^{i} \frac{\rho_{i,j}\tau_j\sigma_i(t)\sigma_j(t)f_j(t)}{1+\tau_j f_j(t)} + \tilde{\sigma}_i(t)\rho\int_t^{T_{\beta(t)-1}}\tilde{\sigma}_f(t,u)'du \\
                  &=& \sum_{j=\beta(t)}^{i} \frac{\rho_{i,j}\tau_j\sigma_i(t)\sigma_j(t)f_j(t)}{1+\tau_j f_j(t)} + \sum_{j=\beta(t)}^{i} \rho_{i,j}\sigma_i(t)\rho\int_t^{T_{\beta(t)-1}}\tilde{\sigma}_f(t,u)'du
 \end{eqnarray*}
-where $\tilde{\sigma}$ is the horizontal $M$-vector volatility coefficient for the forward rate $f_i(t)$. 
+where $\tilde{\sigma}$ is the horizontal $M$-vector volatility coefficient for the forward rate $f_i(t)$.
 
 
-\section{Calibration of LMM to Caps Prices}
+\section{Calibration of LMM to Caps/Swaptions Prices}
+Let's assume a unit notional amount, adn the discount payoff at time 0 of a cap with reset date $T_{\alpha}$ and payment dates $T_{\alpha+1},\ldots,T_{\beta}$ is given by
+$$
+\sum_{i=\alpha+1}^{\beta} \tau_i D(0,T_i)(f(T_{i-1},T_{i-1},T_{i}))^+
+$$
 
+The risk neutral expectation on the cap price described above is
+$$
+\mathbb{E} \left\{ \sum_{i=\alpha+1}^{\beta} \tau_i D(0,T_i)(f(T_{i-1},T_{i-1},T_{i}))^+ \right\} = \sum_{i=\alpha+1}^{\beta} \tau_i P(0,T_i) \mathbb{E}^i[(f(T_{i-1},T_{i-1},T_{i}))^+]
+$$
 
-Figure~\ref{fig::curves} plots the zero and forward curves as of market date 2016-06-30. 
+Therefore the caplet (the single additive term) is then given by
+$$
+P(0,T_i)\mathbb{E}^i(f_i(T_{i-1})-K)^+
+$$
+
+According to Proposition 6.4.1 in~\cite{bm06}, the price of the $T_{i-1}$-caplet implied by the LMM coincides with that given by the corresponding Black caplet formula
+\begin{eqnarray*}
+Cpl^{LMM}(0,T_{i-1},T_i,K)  &=& Cpl^{LMM}(0,T_{i-1},T_i,K,v_i) \\
+                            &=& P(0,T_i)\tau_i Bl(K,f_i(0),v_i) \\
+            Bl(K,f_i(0),v_i) &=& \mathbb{E}^i (f_i(T_{i-1})-K)^+ \\
+                            &=& f_i(0) \Phi(d_1(K,f_i(0), v_i)) - K \Phi(d_2(K,f_i(0), v_i)) \\
+            d_{1,2}(K,f,v)  &=& \frac{\log(f/K) \pm v^2/2}{v}
+\end{eqnarray*}
+
+The market quote on the market is typically with first reset date in three months or in six months. An equation is considered between the market price $Cap^{MKT}(0,T_i,K)$ of the cap with $\alpha=0$ and $\beta=j$ and the sum of the first $j$ caplets prices:
+$$
+Cap^{MKT}(0,T_i,K) = \sum_{i=1}^{j} \tau_i P(0,T_i) Bl(K,f_i(0),\sqrt{T_{i-1} v_{T_j-cap}})
+$$
+where a same average-volatility value $v_{T_j-cap}$ has been put in all caplets up to $j$. To recover the market cap prices with  forward rate dynamics we have
+$$
+\sum_{i=1}^{j} \tau_i P(0,T_i) Bl(K,f_i(0),\sqrt{T_{i-1} v_{T_j-cap}}) = \sum_{i=1}^{j} \tau_i P(0,T_i) Bl(K,f_i(0),\sqrt{T_{i-1} v_{T_{i-1}-caplet}})
+$$
+
+Recovering the $v_{caplet}$'s from the market quoted $v_{cap}$'s using stripping algorithm can be used, which based on the last equality applied to $j=1,2,3,\ldots$.
+
+In this project, I use the swaption normal volatility to calibration the LMM. The swaption is an option whose under is an interest rate swap (IRS). The discounted payoff of an IRS with a K different from swap rate can be expressed as
+$$
+D(0,T_{\alpha})(S_{\alpha,\beta}(T_{\alpha}-K)\sum_{i=\alpha+1}^{\beta} \tau_i P(T_{\alpha}, T_i))
+$$
+
+And a swaption is a contract that gives its buyer the right, but not obligation, to enter a future time an interest rate swap. The payer swaption payoff is
+$$
+D(0,T_{\alpha})(S_{\alpha,\beta}(T_{\alpha}-K)^+\sum_{i=\alpha+1}^{\beta} \tau_i P(T_{\alpha}, T_i))
+$$
+
+The coincidence of payer swaption price with Black's formula for swaptions is addressed in Proposition 6.7.1 in~\cite{bm06}, which states
+\begin{eqnarray*}
+PS^{LMM}(0,T_{\alpha},[T_{\alpha},\ldots,T_{\beta}],K) &=& PS^{Black}(0,T_{\alpha},[T_{\alpha},\ldots,T_{\beta}],K) \\
+            &=& C_{\alpha,\beta}(0)Bl(K,S_{\alpha,\beta}(0),v_{\alpha,\beta}(T_\alpha))
+\end{eqnarray*}
+
+The calibration process of swaptions prices to LMM parameters is to keep adjusting the correlation matrix in the LMM so that the difference between market observed volatility is closest to the model generated volatilities. The Rebonato calibration method is detailed in~\cite{re99} and \cite{re02}.
+
+The market date I chose for LMM calibration is 2016-06-30. The U.S. swaption normal volatility date source is Bloomberg. The normal volatilities are from vanilla European swaptions with specific option tenors and swap tenors. Figure~\ref{fig::swaption_normal_vol} plots the market observable swaption normal volatilities with respect to various option terms and swap terms. Note that the volatilities of swaption used for calibration are all at-the-money level volatilities.
 
 \begin{center}
   \begin{figure}
+  \centering
+      \includegraphics[scale=0.6]{swaption_normal_vol.eps}
+      \caption{The normal volatilities of swaptions as of 2016-06-30. Data source is Bloomberg.}\label{fig::swaption_normal_vol}
+  \end{figure}
+\end{center}
+
+The U.S. LIBOR OIS curve for the same market date is used to discount the payoff of the swaption. The selected discounting method is dual-curve discounting, where the discount factor comes from the OIS curve. Figure~\ref{fig::curves} plots the zero and forward curves as of market date 2016-06-30.
+
+\begin{center}
+  \begin{figure}
+  \centering
       \includegraphics[scale=0.6]{zero_forward_curves.eps}
       \caption{The zero curve (left) and forward curves (right) as of 2016-06-30.}\label{fig::curves}
   \end{figure}
 \end{center}
 
+The LMM calibration has objective function that calculates the difference between LMM generated Black volatilities and the market observed Black volatilities. The market observable Black volatilities is backed out from swaption normal volatilities using the Black model. The LMM projected Black volatilities are calculated from tuned LMM parameters and Black's formula for swaption pricing. A set of market consistent parameters, especially the correlation matrix from the LMM, is optimized using least square technique. A least square type of error is minimized between the market volatility surface and LMM projected surface. The calibration process implementation is detailed in the code submitted among with this paper.
 
-Figure~\ref{fig::vol_term} plots the term structure of the volatility from the calibrated LMM.
+The option and swap tenors used for calibration are 1-Yr, 3-Yr, 5-Yr. 7-Yr, 10-Yr, 20-Yr and 30-Yr, in total 49 data points from the volatility surface. The parametric correlation function takes the form $\rho_{i,j}=\exp(-\beta(t)|i-j|)$, and a piecewise constant instantaneous volatility assumption is selected. One useful approximation (Rebonato 2002) follows as below, which computes the Black volatility for a European swaption, given an LMM with a set of volatility functions and a correlation matrix.
+$$
+(v_{\alpha_\beta}^{LMM})^2 = \sum_{i,j=\alpha+1}^{\beta} \frac{w_{i}(0)w_{j}(0)f_i(0)f_j(0)\rho_{i,j}}{S_{\alpha,\beta}(0)^2} \int_0^{T_{\alpha}} \sigma_i(t)\sigma_j(t) dt
+$$
+where
+$$
+w_i(t) = \frac{\tau_i P(t,T_i)}{\sum_{k=\alpha+1}^{\beta} \tau_k P(t,t_k)}
+$$
+
+The calibration is achieved via optimization Rebonato method. Figure~\ref{fig::vol_term} plots the term structure of the volatility from the calibrated LMM parameters.
 
 \begin{center}
   \begin{figure}
@@ -74,8 +146,7 @@ Figure~\ref{fig::vol_term} plots the term structure of the volatility from the c
   \end{figure}
 \end{center}
 
-
-Figure~\ref{fig::sim_zero_forward} plots the simulated zero curves and forward curves in one scenario (out of 1000) from the calibrated LMM.
+Another benefit of calibrating market consistent model parameters is to populate market consistent interest rate scenarios for exotic option pricing. In this project, I use the LMM generated scenarios to price vanilla swaption (as discussed in~\ref{chpt::market_risk}) and Bermudans swaption. For a Bermudans swaption with maturity date in 5 years and a strike of 0.045, the averaged price is \$3.250, over 500 scenarios. Figure~\ref{fig::sim_zero_forward} plots the simulated zero curves and forward curves in one scenario (out of 1000) from the calibrated LMM.
 
 \begin{center}
   \begin{figure}
@@ -84,7 +155,15 @@ Figure~\ref{fig::sim_zero_forward} plots the simulated zero curves and forward c
   \end{figure}
 \end{center}
 
-Figure~\ref{fig::swaption_prices} plots the price sensitivity of swaption with respect to the interest rate curve (OIS curve) bumpings. 
+\section{Price Sensitivity Analysis} \label{chpt::market_risk}
+The pricing vanilla European swaption is done in the calibration process, where the Black volatility of a swaption is calculated (and compares to the market quote). A swaption price is then calculated using either Black formula for swaption or a Monte Carlo simulation using the scenarios generated from LMM. The Black formula pricing method uses the Black volatility of the swaption, which is approximated by Rebonato method. Just as an example, I price the 5-Yr-into-5-Yr (5-Yr option tenor and 5-Yr swap tenor) vanilla payer swaption with strike price 2.5\%. The fair value from the LMM is \$ 1.8236, using Monte Carlo simulation with 200 scenarios.
+
+The market risks of this vanilla swaption are mainly {\emph Rho} and {\emph Convexity}. {\emph Rho} represents the first-order market exposure of swaption with respect to the interest rate moves. {\emph Convexity}, instead, represents the second-order market exposure of swaption with respect to the interest rate moves. The Greeks {\emph Rho} and {\emph Convexity} can be calculated from bumping the forward rate curves parallel, re-calibration on the LMM parameters, and repricing the swaption. The {\emph Rho} calculation method is
+$$
+Rho = \frac{\mathrm{Price when IR curve up $\Delta$ bps} - \mathrm{Price when IR curve down $\Delta$ bps}}{2\Delta}
+$$
+
+Figure~\ref{fig::swaption_prices} plots the price sensitivity of swaption with respect to the interest rate curve (OIS curve) bumpings.
 
 \begin{center}
   \begin{figure}
@@ -92,5 +171,3 @@ Figure~\ref{fig::swaption_prices} plots the price sensitivity of swaption with r
       \caption{The swaption prices with respect to the OIS curve bumpings.}\label{fig::swaption_prices}
   \end{figure}
 \end{center}
-
-\section{Test: Reprice Cap and Swaption} 

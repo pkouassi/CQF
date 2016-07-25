@@ -6,6 +6,39 @@ df(t;T_1,T_2) = \sigma_2(t)f(t;T_1,T_2)dW(t)
 $$
 where $\sigma_2$ is the corresponding instantaneous volatility, and $W$ is one Brownian motion under measure $Q^2$. The caplet price term $\mathbb{E}^{Q^2}[(f_2(T_1)-X)^+]$ can be computed using Ito's formula
 \begin{eqnarray*}
-d\log(f_2(t)) &=& \frac{\partial \log(f_2)}{\partial f_2} df_2 + \frac{1}{2} \\
-              &=& \frac{1}{2}
+d\log(f_2(t)) &=& \frac{\partial \log(f_2)}{\partial f_2} df_2 + \frac{1}{2} \frac{\partial^2 \log(f_2)}{\partial f_2^2} d f_2 d f_2 \\
+              &=& \frac{1}{f_2} df_2 - \frac{1}{2 f_2^2} d f_2 df_2 \\
+              &=& \sigma_2(t) dW(t) -\frac{1}{2} \sigma_2^2 (t) dt
 \end{eqnarray*}  
+
+Integrate both sides and we yields
+$$
+f_2(T) = f_2(0) \exp\left( \int_0^T \sigma_2(t) dW(t) - \frac{1}{2}\int_0^T \sigma_2^2(t) dt \right)
+$$
+
+To calculate the distribution of the Gaussian random variable in the exponent, we have the expectation
+$$
+\mathbb{E}\left[ \int_0^T \sigma_2(t) dW(t) - \frac{1}{2}\int_0^T \sigma_2^2(t) dt \right] = -\frac{1}{2} \int_0^T \sigma_2^2(t) dt
+$$ 
+and the variance
+\begin{eqnarray*}
+\mathbb{V}\left[ \int_0^T \sigma_2(t) dW(t) - \frac{1}{2}\int_0^T \sigma_2^2(t) dt \right] &=& \mathbb{V}\left[ \int_0^T \sigma_2(t) dW(t) \right] \\
+   &=& \mathbb{E}\left[ \left( \int_0^T \sigma_2(t) dW(t) \right)^2 \right] - 0^2 \\
+   &=& \int_0^T \sigma_2(t) dt
+\end{eqnarray*}  
+
+Recall that 
+$$
+f_2(T) = f_2(0) \exp(I(T)) = f_2(0) e^{m+V N(0,1)}
+$$
+
+Use the classic Black-Scholes framework, 
+\begin{eqnarray*}
+\mathbb{E}^{Q^2}[(f_2(T_1)-X)^+] &=& \mathbb{E}^{Q^2}[(f_2(0) e^{m+V N(0,1)}-X)^+] \\
+                                 &=& \int_{-\infty}^{+\infty} (f_2(0) e^{m+V N(0,1)}-X)^+ p_{N(0,1)}(y) dy \\
+                                 &=& \ldots \\
+                                 &=& f_2(0) \Phi(d_1) - X\Phi(d_2) \\
+                     d_{1,2}     &=& \frac{\log\frac{f_2(0)}{X} \pm \frac{1}{2} \int_0^{T_1} \sigma_2^2(t)dt}{\sqrt{\int_0^{T_1}\sigma_2^2(t)dt }}
+\end{eqnarray*}
+
+When including the inital discount factor $P(0,T_2)$ and the year fraction $\tau$ this is the classic Black's formula for the $T_2 - T_1$ caplet. $\Box$

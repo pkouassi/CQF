@@ -4,7 +4,7 @@
 
 % define workplace
 crt_path = which('main_ird.m');
-parrent_path = strrep(crt_path, 'Code\main.m', '');
+parrent_path = strrep(crt_path, 'Code\main_ird.m', '');
 data_file_path = strcat(parrent_path, 'Data\');
 
 % read data from directory
@@ -38,6 +38,11 @@ swaption_normal_vol = ...
 
 ExerciseDates = [1:10 12 15:5:30];
 Tenors = [1:10 12 15:5:30];
+figure
+surf(ExerciseDates, Tenors, swaption_normal_vol);
+xlabel('Option Terms')
+ylabel('Swap Terms')
+title('Swaption Normal Volatilities as of 2016-06-30')
 
 % subsample of the whole vol surface
 subsmpl = [1 3 5 7 10 13 15];
@@ -141,6 +146,14 @@ SwapRate = (1 - DF(exRow,endCol,:))./sum(bsxfun(@times,1,DF(exRow,1:endCol,:)));
 PayoffValue = 100*max(SwapRate-InstrumentStrike,0).*sum(bsxfun(@times,1,DF(exRow,1:endCol,:)));
 RealizedDF = prod(exp(bsxfun(@times,-LMMZeroRates(2:exRow,1,:),SimTimes(1:exRow-1))),1);
 LMM_SwaptionPrice = mean(RealizedDF.*PayoffValue);
+
+% Bermudans option pricing
+% LMMTenorBer = (1:11)';
+% BermudanExerciseDates = daysadd(Settle,360*(1:11),1);
+% BermudanMaturity = datenum('30-June-2021');
+% BermudanStrike = .045;
+% LMMBermPrice = hBermudanSwaption(LMMZeroRates(6:11,1:11,:),SimDates(6:11),LMMTenorBer,.025,SimDates(1:5),BermudanMaturity);
+
 
 % market risk analysis
 swaption_price_0 = ...

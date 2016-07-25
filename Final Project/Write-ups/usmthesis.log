@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=latex 2016.3.20)  24 JUL 2016 21:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=latex 2016.5.15)  25 JUL 2016 08:24
 entering extended mode
 **./usmthesis.tex
 (usmthesis.tex
@@ -1172,7 +1172,7 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \enit@inbox=\box47
 \enitdp@description=\count160
 )
-("D:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.sty"
+(C:\Users\Ran\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.sty
 \lst@mode=\count161
 \lst@gtempboxa=\box48
 \lst@token=\toks43
@@ -1186,21 +1186,23 @@ Package: enumitem 2011/09/28 v3.5.2 Customized lists
 \lst@lineno=\count166
 \lst@maxwidth=\dimen178
 
-("D:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
+(C:\Users\Ran\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 \c@lstnumber=\count167
 \lst@skipnumbers=\count168
 \lst@framebox=\box49
 )
-("D:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\listings.cfg"
+(C:\Users\Ran\AppData\Roaming\MiKTeX\2.9\tex\latex\listings\listings.cfg
 File: listings.cfg 2015/06/04 1.6 listings configuration
 ))
 Package: listings 2015/06/04 1.6 (Carsten Heinz)
 
-("D:\Program Files (x86)\MiKTeX 2.9\tex\latex\algorithmicx\algpseudocode.sty"
+(C:\Users\Ran\AppData\Roaming\MiKTeX\2.9\tex\latex\algorithmicx\algpseudocode.s
+ty
 Package: algpseudocode 
 
-("D:\Program Files (x86)\MiKTeX 2.9\tex\latex\algorithmicx\algorithmicx.sty"
+(C:\Users\Ran\AppData\Roaming\MiKTeX\2.9\tex\latex\algorithmicx\algorithmicx.st
+y
 Package: algorithmicx 2005/04/27 v1.2 Algorithmicx
 
 Document Style algorithmicx 1.2 - a greatly improved `algorithmic' style
@@ -1571,15 +1573,7 @@ Overfull \hbox (95.73561pt too wide) in paragraph at lines 7--8
  [6
 
 
-]
-(usmthesis.lop)
-\tf@lop=\write8
-\openout8 = `usmthesis.lop'.
-
- [7
-
-
-] (abs-eng.tex) [8
+] (abs-eng.tex) [7
 
 
 ] (mainchaps.tex
@@ -1591,23 +1585,26 @@ Chapter 1.
 
 
 
-] [2] [3]
+] [2] [3] [4] [5] [6]
+File: swaption_normal_vol.eps Graphic file (type eps)
+ <swaption_normal_vol.eps>
 File: zero_forward_curves.eps Graphic file (type eps)
  <zero_forward_curves.eps>
+[7] [8]
 File: vol_func.eps Graphic file (type eps)
  <vol_func.eps>
 File: sim_zero_forward.eps Graphic file (type eps)
  <sim_zero_forward.eps>
-Overfull \hbox (143.31741pt too wide) in paragraph at lines 82--83
+Overfull \hbox (143.31741pt too wide) in paragraph at lines 153--154
 [][][] 
  []
 
-[4] [5]
+[9] [10]
 File: swaption_prices.eps Graphic file (type eps)
- <swaption_prices.eps>) [6])
+ <swaption_prices.eps>) [11])
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 175.
- (appendices.tex [7
+ (appendices.tex [12
 
 
 ]
@@ -1615,10 +1612,10 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <24.88> not available
 
  (app-caplet.tex
 Appendix A.
-) [8
+[13
 
 
-]) (usmthesis.bbl) [9
+]) [14]) (usmthesis.bbl) [15
 
 
 ]
@@ -1629,15 +1626,15 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 192.
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 192.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 192.
 Package rerunfilecheck Info: File `usmthesis.out' has not changed.
-(rerunfilecheck)             Checksum: 2C7F5FD3ACE8FC5BEC17FB3A8BDF37D4;1103.
+(rerunfilecheck)             Checksum: 2C27A5025F77527FB37ECC70338C529A;1057.
  ) 
 Here is how much of TeX's memory you used:
- 20933 strings out of 493635
- 343760 string characters out of 3141329
+ 20945 strings out of 493635
+ 344034 string characters out of 3141346
  429197 words of memory out of 3000000
- 23986 multiletter control sequences out of 15000+200000
+ 24000 multiletter control sequences out of 15000+200000
  37862 words of font info for 54 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 51i,7n,44p,10387b,449s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 51i,8n,44p,10387b,445s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on usmthesis.dvi (18 pages, 50760 bytes).
+Output written on usmthesis.dvi (23 pages, 70612 bytes).
